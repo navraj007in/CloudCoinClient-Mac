@@ -125,6 +125,7 @@
     <InterfaceDefinition Include="MainMenu.xib" />
     <InterfaceDefinition Include="MainWindow.xib" />
     <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="Resources\en.lproj\MainWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CloudCoinCoreStandard\CloudCoinCoreStandard.csproj">

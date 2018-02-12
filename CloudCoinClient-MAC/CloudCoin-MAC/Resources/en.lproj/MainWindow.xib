@@ -8,7 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController">
             <connections>
-                <outlet property="txtProgress" destination="sgy-CY-zFJ" id="ay8-QW-O8W"/>
                 <outlet property="window" destination="2" id="6"/>
             </connections>
         </customObject>
@@ -30,19 +29,16 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="zuN-8q-uT7">
+                    <button verticalHuggingPriority="750" misplaced="YES" id="qdM-5v-psI">
                         <rect key="frame" x="21" y="772" width="99" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Echo" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FE0-IR-4Hs">
+                        <buttonCell key="cell" type="push" title="Echo" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sdx-WI-Rx8">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
-                            <connections>
-                                <action selector="cmdEcho:" target="-2" id="xiY-BI-jRE"/>
-                            </connections>
                         </buttonCell>
                     </button>
                     <button verticalHuggingPriority="750" misplaced="YES" id="X2J-n1-xuJ">
-                        <rect key="frame" x="240" y="772" width="99" height="32"/>
+                        <rect key="frame" x="206" y="772" width="99" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Export" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OOJ-Je-KVZ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -50,7 +46,7 @@
                         </buttonCell>
                     </button>
                     <button verticalHuggingPriority="750" misplaced="YES" id="jmW-wV-4iJ">
-                        <rect key="frame" x="366" y="772" width="99" height="32"/>
+                        <rect key="frame" x="299" y="772" width="99" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Bank" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4ud-n1-OkC">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -58,16 +54,12 @@
                         </buttonCell>
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" id="sgy-CY-zFJ">
-                        <rect key="frame" x="20" y="422" width="486" height="331"/>
+                        <rect key="frame" x="27" y="401" width="486" height="331"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="L7N-A8-mw3">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                            <connections>
-                                <action selector="txtProgress:" target="-2" id="Dj6-wc-y5R"/>
-                                <outlet property="representedObject" destination="sgy-CY-zFJ" id="som-em-k7y"/>
-                            </connections>
                         </textFieldCell>
                     </textField>
                 </subviews>

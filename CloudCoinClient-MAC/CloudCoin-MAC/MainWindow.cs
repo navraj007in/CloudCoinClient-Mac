@@ -33,7 +33,7 @@ namespace CloudCoinMAC
         public MainWindow(IntPtr handle) : base(handle)
         {
             Title = "CloudCoin CE - 2.0";
-            Echo();
+            //Echo();
         }
 
         [Export("initWithCoder:")]
