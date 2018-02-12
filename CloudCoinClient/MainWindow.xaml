@@ -1,0 +1,22 @@
+﻿<Window x:Class="CloudCoinClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CloudCoinClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label Content="Ready Nodes :"/>
+            <Label x:Name="lblReady"/>
+            <Label Content="NotReady Nodes :"/>
+            <Label x:Name="lblNotReady"/>
+            
+            <Button x:Name="cmdShow" Content="Show Status" Click="cmdShow_Click" Width="200"></Button>
+            <Button x:Name="cmdEcho" Content="Echo" Click="cmdEcho_Click" Width="200"></Button>
+            <Button x:Name="cmdDetect" Content="Detect" Click="cmdDetect_Click" Width="200"></Button>
+            <Button x:Name="cmdMultiDetect" Content="Multi-Detect" Click="cmdMultiDetect_Click" Width="200"></Button>
+        </StackPanel>
+    </Grid>
+</Window>
