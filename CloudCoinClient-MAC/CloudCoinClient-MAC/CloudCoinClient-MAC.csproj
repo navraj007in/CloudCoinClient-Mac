@@ -84,6 +84,7 @@
       <DependentUpon>MainWindowController.cs</DependentUpon>
     </Compile>
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="CoreClasses\FileSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainMenu.xib" />
@@ -94,6 +95,9 @@
       <Project>{B50E5BBA-1697-4996-AC06-1DC7658D23A9}</Project>
       <Name>CloudCoinCoreStandard</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CoreClasses\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>
