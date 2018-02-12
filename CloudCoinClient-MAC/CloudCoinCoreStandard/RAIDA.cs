@@ -26,10 +26,10 @@ namespace CloudCoinCore
 
         private RAIDA()
         {
-            for (int i = 0; i < Config.NodeCount; i++)
+            for(int i = 0; i < Config.NodeCount; i++)
             {
-                nodes[i] = new Node(i + 1);
-            }
+                nodes[i] = new Node(i+1);
+            }                   
         }
         public static RAIDA GetInstance()
         {
@@ -72,7 +72,7 @@ namespace CloudCoinCore
 
 
 
-
+    
         public List<Func<Task>> GetMultiDetectTasks(CloudCoin[] coins, int milliSecondsToTimeOut)
         {
             this.coins = coins;
@@ -92,7 +92,7 @@ namespace CloudCoinCore
             {
 
             };
-
+            
             List<Func<Task>> multiTaskList = new List<Func<Task>>();
 
             //List<Task<Response[]>> multiTaskList = new List<Task<Response[]>>();
@@ -108,7 +108,7 @@ namespace CloudCoinCore
             multiRequest.timeout = Config.milliSecondsToTimeOut;
             for (int nodeNumber = 0; nodeNumber < Config.NodeCount; nodeNumber++)
             {
-
+                
                 ans[nodeNumber] = new String[coins.Length];
                 pans[nodeNumber] = new String[coins.Length];
 
@@ -150,14 +150,14 @@ namespace CloudCoinCore
             }//end for each detection agent
 
             var counts = coin.response
-                .GroupBy(item => item.outcome == "pass")
+                .GroupBy(item => item.outcome== "pass")
                 .Select(grp => new { Number = grp.Key, Count = grp.Count() });
 
             var countsf = coin.response
                     .GroupBy(item => item.outcome == "fail")
                     .Select(grp => new { Number = grp.Key, Count = grp.Count() });
 
-            Debug.WriteLine("Pass Count -" + counts.Count());
+            Debug.WriteLine("Pass Count -" +counts.Count());
             Debug.WriteLine("Fail Count -" + countsf.Count());
 
             coin.setAnsToPansIfPassed();
@@ -174,7 +174,11 @@ namespace CloudCoinCore
         public int ReadyCount { get { return nodes.Where(x => x.RAIDANodeStatus == NodeStatus.Ready).Count(); } }
         public int NotReadyCount { get { return nodes.Where(x => x.RAIDANodeStatus == NodeStatus.NotReady).Count(); } }
 
-       
+        public virtual void OnProgressChanged(ProgressChangedEventArgs e)
+        {
+            ProgressChanged?.Invoke(this, e);
+        }
+
         public event EventHandler CoinDetected;
 
         protected virtual void OnCoinDetected(DetectEventArgs e)
