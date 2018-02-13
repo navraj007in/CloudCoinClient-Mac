@@ -8,6 +8,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Reflection;
+using Foundation;
 
 namespace CloudCoinClientMAC.CoreClasses
 {
@@ -98,6 +99,21 @@ namespace CloudCoinClientMAC.CoreClasses
             {
                 return false;
             }
+
+            string[] files = NSBundle.GetPathsForResources("jpg","Templates");
+            foreach (var fl in files){
+                string fileName = Path.GetFileName(fl);
+                try
+                {
+                    File.Copy(fl, TemplateFolder + fileName);
+                }
+                catch(Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+
+
+            }
+       
             return true;
         }
 

@@ -19,5 +19,11 @@ namespace CloudCoinMAC
         public static string TAG_PREDETECT = "PreDetect";
         public static string TAG_REQUESTS = "Requests";
         public static string TAG_DANGEROUS = "Dangerous";
+
+        public static String WorkSpaceKey = "workspace";
+        public static String DisclaimerKey = "isDisclaimerShown";
+        public static string HomeFolder = "CloudCoin";
+        public static String DefaultHomeLocation = "";
+        //public static string WorkSpaceKey { get; internal set; }
     }
 }
