@@ -13,6 +13,9 @@ namespace CloudCoinMAC
 	partial class MainWindowController
 	{
 		[Outlet]
+		AppKit.NSTextView txtLogs { get; set; }
+
+		[Outlet]
 		AppKit.NSTextField txtProgress { get; set; }
 
 		[Action ("cmdEcho:")]
@@ -26,6 +29,11 @@ namespace CloudCoinMAC
 			if (txtProgress != null) {
 				txtProgress.Dispose ();
 				txtProgress = null;
+			}
+
+			if (txtLogs != null) {
+				txtLogs.Dispose ();
+				txtLogs = null;
 			}
 		}
 	}

@@ -31,9 +31,9 @@ namespace CloudCoinMAC
             BeginInvokeOnMainThread(() =>
             {
                 NSString str = new NSString(logLine + System.Environment.NewLine);
-                txtProgress.StringValue += logLine + System.Environment.NewLine;
+                //txtProgress.StringValue += logLine + System.Environment.NewLine;
                 //txtProgress.InsertText(str);
-                
+                txtLogs.InsertText(str);
 
             });
         }
