@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Reflection;
 using Foundation;
+using System.Diagnostics;
 
 namespace CloudCoinClientMAC.CoreClasses
 {
@@ -97,21 +98,27 @@ namespace CloudCoinClientMAC.CoreClasses
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 return false;
             }
-
-            string[] files = NSBundle.GetPathsForResources("jpg","Templates");
-            foreach (var fl in files){
-                string fileName = Path.GetFileName(fl);
-                try
+            try{
+                string[] files = NSBundle.GetPathsForResources("jpg", "Templates");
+                foreach (var fl in files)
                 {
-                    File.Copy(fl, TemplateFolder + fileName);
-                }
-                catch(Exception e) {
-                    Console.WriteLine(e.Message);
+                    string fileName = Path.GetFileName(fl);
+                    try
+                    {
+                        File.Copy(fl, TemplateFolder + fileName);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                 }
 
-
+            }
+            catch(Exception e) {
+                Debug.WriteLine(e.Message);
             }
        
             return true;

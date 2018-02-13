@@ -21,14 +21,15 @@ namespace CloudCoinMAC
         
         public AppDelegate()
         {
+            defaults.SetString("",Config.WorkSpaceKey);
             try{
                 ws = defaults.StringForKey(Config.WorkSpaceKey);
                 if (ws == null)
                     ws = "";
                 if (ws.Length == 0)
                 {
-                    ws = defaultPath + System.IO.Path.DirectorySeparatorChar;
-                    defaults.SetString(defaultPath, "workspace");
+                    ws = defaultPath ;
+                    defaults.SetString(defaultPath, Config.WorkSpaceKey);
                 }
                 else {
                     

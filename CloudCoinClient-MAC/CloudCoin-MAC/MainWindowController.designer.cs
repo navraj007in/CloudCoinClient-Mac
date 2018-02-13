@@ -17,6 +17,9 @@ namespace CloudCoinMAC
 
 		[Action ("cmdEcho:")]
 		partial void cmdEcho (Foundation.NSObject sender);
+
+		[Action ("cmdImportClicked:")]
+		partial void cmdImportClicked (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
