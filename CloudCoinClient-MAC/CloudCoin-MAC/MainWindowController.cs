@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using CloudCoinCore;
 using CloudCoinClientMAC.CoreClasses;
+using System.IO;
 
 namespace CloudCoinMAC
 {
@@ -163,6 +164,13 @@ namespace CloudCoinMAC
         partial void cmdImportClicked(NSObject sender)
         {
             //txtProgress.StringValue += "Node " + "\n";
+            var files = Directory
+               .GetFiles(FS.ImportFolder)
+               .Where(file => CloudCoinCore.Config.allowedExtensions.Any(file.ToLower().EndsWith))
+               .ToList();
+
+            int filesCount = Directory.GetFiles(FS.ImportFolder).Length;
+
             Detect();
         }
         public async void Echo()
