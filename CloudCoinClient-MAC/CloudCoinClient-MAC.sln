@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudCoinCoreStandard", "Cl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudCoin-MAC", "CloudCoin-MAC\CloudCoin-MAC.csproj", "{568ABA22-374C-4CA0-AFDA-A52F2C85BDC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudCoin", "CloudCoin\CloudCoin.csproj", "{FEF8052F-179D-4157-BA68-F3DD00964D71}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudCoinMAC", "CloudCoinMAC\CloudCoinMAC.csproj", "{1521E656-EED4-4DF2-8BD9-FD491F26AD20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +27,9 @@ Global
 		{568ABA22-374C-4CA0-AFDA-A52F2C85BDC0}.Debug|x86.Build.0 = Debug|x86
 		{568ABA22-374C-4CA0-AFDA-A52F2C85BDC0}.Release|x86.ActiveCfg = Release|x86
 		{568ABA22-374C-4CA0-AFDA-A52F2C85BDC0}.Release|x86.Build.0 = Release|x86
-		{FEF8052F-179D-4157-BA68-F3DD00964D71}.Debug|x86.ActiveCfg = Debug|x86
-		{FEF8052F-179D-4157-BA68-F3DD00964D71}.Debug|x86.Build.0 = Debug|x86
-		{FEF8052F-179D-4157-BA68-F3DD00964D71}.Release|x86.ActiveCfg = Release|x86
-		{FEF8052F-179D-4157-BA68-F3DD00964D71}.Release|x86.Build.0 = Release|x86
+		{1521E656-EED4-4DF2-8BD9-FD491F26AD20}.Debug|x86.ActiveCfg = Debug|x86
+		{1521E656-EED4-4DF2-8BD9-FD491F26AD20}.Debug|x86.Build.0 = Debug|x86
+		{1521E656-EED4-4DF2-8BD9-FD491F26AD20}.Release|x86.ActiveCfg = Release|x86
+		{1521E656-EED4-4DF2-8BD9-FD491F26AD20}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 EndGlobal

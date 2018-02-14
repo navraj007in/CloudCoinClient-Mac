@@ -1,6 +1,6 @@
 ﻿using AppKit;
 
-namespace CloudCoin
+namespace CloudCoinMAC
 {
     static class MainClass
     {
