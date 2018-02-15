@@ -8,6 +8,10 @@ using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.IO;
+using ZXing;
+using ZXing.Common;
+using System.Drawing;
+using SharpPdf417;
 
 namespace CloudCoinMAC
 {
@@ -42,12 +46,15 @@ namespace CloudCoinMAC
         {
             base.ViewDidLoad();
             Title = "CloudCoin CE - 2.0";
+
+            ShowCoins();
             // Do any additional setup after loading the view.
         }
 
         partial void EchoClick(NSObject sender)
         {
             Echo();
+            ShowCoins();
         }
 
         public void updateLog(string logLine)
@@ -304,6 +311,46 @@ namespace CloudCoinMAC
 
         }
 
+        private void ShowCoins()
+        {
+            var bankCoins = FS.LoadFolderCoins(FS.BankFolder);
+            var frackedCoins = FS.LoadFolderCoins(FS.FrackedFolder);
+
+            bankCoins.AddRange(frackedCoins);
+
+            onesCount = (from x in bankCoins
+                         where x.denomination == 1
+                         select x).Count();
+            fivesCount = (from x in bankCoins
+                          where x.denomination == 5
+                          select x).Count();
+            qtrCount = (from x in bankCoins
+                        where x.denomination == 25
+                        select x).Count();
+            hundredsCount = (from x in bankCoins
+                             where x.denomination == 100
+                             select x).Count();
+            twoFiftiesCount = (from x in bankCoins
+                               where x.denomination == 250
+                               select x).Count();
+            BindTable();
+
+        }
+
+
+        private void BindTable() 
+        {
+            var DataSource = new ProductTableDataSource();
+            DataSource.Products.Add(new Product("1s", onesCount.ToString(), (onesCount.ToString())));
+            DataSource.Products.Add(new Product("5s", fivesCount.ToString(),(fivesCount *5).ToString()));
+            DataSource.Products.Add(new Product("25s", qtrCount.ToString(), (qtrCount*25).ToString()));
+            DataSource.Products.Add(new Product("10s", hundredsCount.ToString(), (hundredsCount*100).ToString()));
+            DataSource.Products.Add(new Product("250s", twoFiftiesCount.ToString(), (twoFiftiesCount*250).ToString()));
+
+            // Populate the Product Table
+            ProductTable.DataSource = DataSource;
+            ProductTable.Delegate = new ProductTableDelegate(DataSource);
+        }
         public override NSObject RepresentedObject
         {
             get

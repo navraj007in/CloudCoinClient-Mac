@@ -16,6 +16,9 @@ namespace CloudCoinMAC
 		AppKit.NSButton Export2DBarCodeClicked { get; set; }
 
 		[Outlet]
+		AppKit.NSTableView ProductTable { get; set; }
+
+		[Outlet]
 		AppKit.NSTextView txtLogs { get; set; }
 
 		[Action ("BackupClicked:")]
@@ -33,11 +36,19 @@ namespace CloudCoinMAC
 		[Action ("ImportClicked:")]
 		partial void ImportClicked (Foundation.NSObject sender);
 
+		[Action ("ListSerialsClicked:")]
+		partial void ListSerialsClicked (Foundation.NSObject sender);
+
 		[Action ("ShowFolderClicked:")]
 		partial void ShowFolderClicked (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (ProductTable != null) {
+				ProductTable.Dispose ();
+				ProductTable = null;
+			}
+
 			if (Export2DBarCodeClicked != null) {
 				Export2DBarCodeClicked.Dispose ();
 				Export2DBarCodeClicked = null;
