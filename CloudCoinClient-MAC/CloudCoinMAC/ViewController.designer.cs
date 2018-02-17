@@ -16,7 +16,13 @@ namespace CloudCoinMAC
 		AppKit.NSButton Export2DBarCodeClicked { get; set; }
 
 		[Outlet]
+		AppKit.NSTextField lblBankTotal { get; set; }
+
+		[Outlet]
 		AppKit.NSTableView ProductTable { get; set; }
+
+		[Outlet]
+		AppKit.NSLevelIndicatorCell raidaLevel { get; set; }
 
 		[Outlet]
 		AppKit.NSButton rdbJpeg { get; set; }
@@ -59,14 +65,9 @@ namespace CloudCoinMAC
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (rdbStack != null) {
-				rdbStack.Dispose ();
-				rdbStack = null;
-			}
-
-			if (rdbJpeg != null) {
-				rdbJpeg.Dispose ();
-				rdbJpeg = null;
+			if (lblBankTotal != null) {
+				lblBankTotal.Dispose ();
+				lblBankTotal = null;
 			}
 
 			if (Export2DBarCodeClicked != null) {
@@ -74,9 +75,24 @@ namespace CloudCoinMAC
 				Export2DBarCodeClicked = null;
 			}
 
+			if (raidaLevel != null) {
+				raidaLevel.Dispose ();
+				raidaLevel = null;
+			}
+
 			if (ProductTable != null) {
 				ProductTable.Dispose ();
 				ProductTable = null;
+			}
+
+			if (rdbJpeg != null) {
+				rdbJpeg.Dispose ();
+				rdbJpeg = null;
+			}
+
+			if (rdbStack != null) {
+				rdbStack.Dispose ();
+				rdbStack = null;
 			}
 
 			if (txtLogs != null) {

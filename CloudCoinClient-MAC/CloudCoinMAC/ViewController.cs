@@ -13,10 +13,8 @@ using ZXing.Common;
 using System.Drawing;
 using SharpPdf417;
 using System.Text;
-using SharpPdf417;
 using ZXing.QrCode;
 //using ZXing.Core;
-using System.Drawing;
 using System.DrawingCore;
 using System.DrawingCore.Imaging;
 
@@ -46,11 +44,11 @@ namespace CloudCoinMAC
 
         ProductTableDataSource DataSource;
 
-        int onesTotal = 0;
-        int fivesTotal = 0;
-        int qtrsTotal = 0;
-        int hundredsTotal = 0;
-        int TwoFiftiesTotal = 0;
+        //int onesTotal = 0;
+        //int fivesTotal = 0;
+        //int qtrsTotal = 0;
+        //int hundredsTotal = 0;
+        //int TwoFiftiesTotal = 0;
 
 
         public ViewController(IntPtr handle) : base(handle)
@@ -64,6 +62,8 @@ namespace CloudCoinMAC
             Title = "CloudCoin CE - 2.0";
 
             ShowCoins();
+            raidaLevel.MaxValue = raida.nodes.Count();
+            Echo();
             // Do any additional setup after loading the view.
         }
 
@@ -235,6 +235,9 @@ namespace CloudCoinMAC
                 //txtProgress.AppendText("Node " + i + " Status --" + raida.nodes[i].RAIDANodeStatus + "\n");
                 Debug.WriteLine("Node" + i + " Status --" + raida.nodes[i].RAIDANodeStatus);
             }
+
+            raidaLevel.IntValue = raida.ReadyCount;
+
             Debug.WriteLine("-----------------------------------\n");
             updateLog("Ready Nodes-" + Convert.ToString(raida.ReadyCount) + "\n");
             updateLog("Not Ready Nodes-" + Convert.ToString(raida.NotReadyCount) + "\n");
@@ -283,7 +286,7 @@ namespace CloudCoinMAC
                     int j = 0;
                     foreach (var coin in coins)
                     {
-                        //coin.pown = "";
+                        coin.pown = "";
                         for (int k = 0; k < CloudCoinCore.Config.NodeCount; k++)
                         {
                             coin.response[k] = raida.nodes[k].multiResponse.responses[j];
@@ -294,7 +297,9 @@ namespace CloudCoinMAC
                         coin.PassCount = countp;
                         coin.FailCount = countf;
                         CoinCount++;
-                        updateLog("No. " + CoinCount + ". Coin Deteced. S. No. - " + coin.sn + ". Pass Count - " + coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + coin.DetectionResult + "." + coin.pown);
+                        updateLog("No. " + CoinCount + ". Coin Deteced. S. No. - " + coin.sn + ". Pass Count - " + 
+                                  coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + 
+                                  coin.DetectionResult + "." + coin.pown + ".Pown Length-"+ coin.pown.Length);
 
 
                         Debug.WriteLine("Coin Deteced. S. No. - " + coin.sn + ". Pass Count - " + coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + coin.DetectionResult);
@@ -412,6 +417,7 @@ namespace CloudCoinMAC
             BindTable();
 
         }
+        int[] multiplier = new int[] { 1, 5, 25, 100, 250 };
 
         private void BindTable() 
         {
@@ -426,7 +432,13 @@ namespace CloudCoinMAC
             ProductTable.DataSource = DataSource;
             ProductTable.Delegate = new ProductTableDelegate(DataSource);
 
-            
+            int total = 0;
+
+            for (int i = 0; i < multiplier.Length;i++) {
+                total += Convert.ToInt32(DataSource.Products[i].NotesValue);
+            }
+
+            lblBankTotal.IntValue = total;
         }
 
         partial void BackupClicked(NSObject sender)
