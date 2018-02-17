@@ -137,7 +137,7 @@ namespace CloudCoinClientMAC.CoreClasses
             suspectCoins = LoadFolderCoins(SuspectFolder);
             detectedCoins = LoadFolderCoins(DetectedFolder);
             frackedCoins = LoadFolderCoins(FrackedFolder);
-            LoadFolderCoins(TemplateFolder);
+            //LoadFolderCoins(TemplateFolder);
             partialCoins = LoadFolderCoins(PartialFolder);
             //counterfeitCoins = LoadFolderCoins(CounterfeitFolder);
             predetectCoins = LoadFolderCoins(PreDetectFolder);
