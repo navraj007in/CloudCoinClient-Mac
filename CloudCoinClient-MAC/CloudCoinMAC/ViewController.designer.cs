@@ -19,7 +19,16 @@ namespace CloudCoinMAC
 		AppKit.NSTableView ProductTable { get; set; }
 
 		[Outlet]
+		AppKit.NSButton rdbJpeg { get; set; }
+
+		[Outlet]
+		AppKit.NSButton rdbStack { get; set; }
+
+		[Outlet]
 		AppKit.NSTextView txtLogs { get; set; }
+
+		[Outlet]
+		AppKit.NSTextFieldCell txtTag { get; set; }
 
 		[Action ("BackupClicked:")]
 		partial void BackupClicked (Foundation.NSObject sender);
@@ -36,14 +45,30 @@ namespace CloudCoinMAC
 		[Action ("ImportClicked:")]
 		partial void ImportClicked (Foundation.NSObject sender);
 
+		[Action ("jPegClicked:")]
+		partial void jPegClicked (Foundation.NSObject sender);
+
 		[Action ("ListSerialsClicked:")]
 		partial void ListSerialsClicked (Foundation.NSObject sender);
 
 		[Action ("ShowFolderClicked:")]
 		partial void ShowFolderClicked (Foundation.NSObject sender);
+
+		[Action ("stackClicked:")]
+		partial void stackClicked (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (rdbStack != null) {
+				rdbStack.Dispose ();
+				rdbStack = null;
+			}
+
+			if (rdbJpeg != null) {
+				rdbJpeg.Dispose ();
+				rdbJpeg = null;
+			}
+
 			if (Export2DBarCodeClicked != null) {
 				Export2DBarCodeClicked.Dispose ();
 				Export2DBarCodeClicked = null;
@@ -57,6 +82,11 @@ namespace CloudCoinMAC
 			if (txtLogs != null) {
 				txtLogs.Dispose ();
 				txtLogs = null;
+			}
+
+			if (txtTag != null) {
+				txtTag.Dispose ();
+				txtTag = null;
 			}
 		}
 	}

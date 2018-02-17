@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -652,7 +653,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="CloudCoin CE Version 1.0" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="838" height="493"/>
@@ -699,19 +700,8 @@
                                     <action selector="ImportClicked:" target="XfG-lQ-9wD" id="XYf-29-Mgk"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" id="Vhh-nK-g2a">
-                                <rect key="frame" x="173" y="381" width="80" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Export" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UTU-iA-mJt">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="ExportClicked:" target="XfG-lQ-9wD" id="hTd-mM-Mos"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" id="OSh-xq-IX1">
-                                <rect key="frame" x="246" y="381" width="86" height="32"/>
+                            <button verticalHuggingPriority="750" misplaced="YES" id="OSh-xq-IX1">
+                                <rect key="frame" x="183" y="381" width="86" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Backup" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1qJ-Zr-DUD">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -721,8 +711,8 @@
                                     <action selector="BackupClicked:" target="XfG-lQ-9wD" id="RSJ-nX-Xfu"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" id="4cR-67-24h">
-                                <rect key="frame" x="324" y="381" width="122" height="32"/>
+                            <button verticalHuggingPriority="750" misplaced="YES" id="4cR-67-24h">
+                                <rect key="frame" x="269" y="381" width="122" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Show Folders" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dBU-St-arW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -732,8 +722,8 @@
                                     <action selector="ShowFolderClicked:" target="XfG-lQ-9wD" id="nVB-oj-MLp"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" id="tLg-Xk-Qkz">
-                                <rect key="frame" x="437" y="381" width="102" height="32"/>
+                            <button verticalHuggingPriority="750" misplaced="YES" id="tLg-Xk-Qkz">
+                                <rect key="frame" x="383" y="381" width="102" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Export QR" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yUV-8M-ESt">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -742,14 +732,6 @@
                                 <connections>
                                     <action selector="ExportQRClicked:" target="XfG-lQ-9wD" id="u60-zl-eJh"/>
                                 </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" id="eXS-SI-3L1">
-                                <rect key="frame" x="530" y="381" width="161" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Export 2D Bar Code" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Jcm-GR-gdJ">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
                             </button>
                             <scrollView misplaced="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="o3g-9y-ijf">
                                 <rect key="frame" x="49" y="90" width="465" height="246"/>
@@ -773,7 +755,7 @@
                                     <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="mdO-gI-fyi">
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="mdO-gI-fyi">
                                     <rect key="frame" x="448" y="1" width="16" height="244"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -979,7 +961,7 @@
                                     <rect key="frame" x="1" y="229" width="275" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="mbg-Hh-4kA">
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="mbg-Hh-4kA">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -988,13 +970,88 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
+                            <box misplaced="YES" title="Export" id="ToJ-zn-TU2">
+                                <rect key="frame" x="46" y="21" width="460" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" id="0WQ-EN-vYV">
+                                    <rect key="frame" x="2" y="2" width="456" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" misplaced="YES" id="Uao-rX-SkF">
+                                            <rect key="frame" x="19" y="13" width="57" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="radio" title="Stack" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="sLx-En-8jo">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="stackClicked:" target="XfG-lQ-9wD" id="lPE-Ej-5yC"/>
+                                            </connections>
+                                        </button>
+                                        <textField verticalHuggingPriority="750" misplaced="YES" id="Z4g-Kt-gWj">
+                                            <rect key="frame" x="205" y="10" width="96" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="WeB-Ro-oT8">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <action selector="ImportClicked:" target="XfG-lQ-9wD" id="laO-SB-3eK"/>
+                                            </connections>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="n5n-iV-RtF">
+                                            <rect key="frame" x="155" y="13" width="26" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Tag" id="2e5-Li-3bs">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button verticalHuggingPriority="750" misplaced="YES" id="Vhh-nK-g2a">
+                                            <rect key="frame" x="309" y="2" width="80" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Export" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UTU-iA-mJt">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="ExportClicked:" target="XfG-lQ-9wD" id="hTd-mM-Mos"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" misplaced="YES" id="gAX-0R-Hi8">
+                                            <rect key="frame" x="81" y="13" width="49" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="radio" title="jpeg" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="aFh-lG-s71">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="jPegClicked:" target="XfG-lQ-9wD" id="5Nw-og-cfm"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </box>
+                            <button verticalHuggingPriority="750" misplaced="YES" id="eXS-SI-3L1">
+                                <rect key="frame" x="477" y="381" width="161" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Export 2D Bar Code" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Jcm-GR-gdJ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="Export2DBarCodeClicked" destination="eXS-SI-3L1" id="kit-t0-GLA"/>
                         <outlet property="ProductTable" destination="fEa-Re-vjZ" id="ujy-ai-WWO"/>
+                        <outlet property="rdbJpeg" destination="gAX-0R-Hi8" id="cvP-Td-7w5"/>
+                        <outlet property="rdbStack" destination="Uao-rX-SkF" id="6Az-s1-Qsk"/>
                         <outlet property="txtLogs" destination="xWE-c9-o1U" id="Zda-j9-Qvh"/>
                         <outlet property="txtProgress" destination="o3g-9y-ijf" id="cjy-n0-59f"/>
+                        <outlet property="txtTag" destination="WeB-Ro-oT8" id="HQ5-9X-ve6"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

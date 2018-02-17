@@ -12,6 +12,7 @@ using ZXing;
 using ZXing.Common;
 using System.Drawing;
 using SharpPdf417;
+using System.Text;
 
 namespace CloudCoinMAC
 {
@@ -19,7 +20,7 @@ namespace CloudCoinMAC
     {
         RAIDA raida = AppDelegate.raida;
         FileSystem FS = AppDelegate.FS;
-        string RootPath;
+        //string RootPath;
         //FileSystem FS;
         //RAIDA raida;
         int onesCount = 0;
@@ -36,6 +37,15 @@ namespace CloudCoinMAC
         public static int exportTwoFifties = 0;
         public static int exportJpegStack = 2;
         public static string exportTag = "";
+
+        ProductTableDataSource DataSource;
+
+        int onesTotal = 0;
+        int fivesTotal = 0;
+        int qtrsTotal = 0;
+        int hundredsTotal = 0;
+        int TwoFiftiesTotal = 0;
+
 
         public ViewController(IntPtr handle) : base(handle)
         {
@@ -69,6 +79,15 @@ namespace CloudCoinMAC
             });
         }
 
+        partial void jPegClicked(NSObject sender)
+        {
+            rdbStack.State = NSCellStateValue.Off;
+        }
+
+        partial void stackClicked(NSObject sender)
+        {
+            rdbJpeg.State = NSCellStateValue.Off;
+        }
         private bool PickFiles() {
             var dlg = NSOpenPanel.OpenPanel;
             dlg.CanChooseFiles = true;
@@ -249,7 +268,7 @@ namespace CloudCoinMAC
                     }
                     catch (Exception e)
                     {
-
+                        Debug.WriteLine(e.Message);
                     }
                 });
 
@@ -339,7 +358,7 @@ namespace CloudCoinMAC
 
         private void BindTable() 
         {
-            var DataSource = new ProductTableDataSource();
+            DataSource = new ProductTableDataSource();
             DataSource.Products.Add(new Product("1s", onesCount.ToString(), (onesCount.ToString())));
             DataSource.Products.Add(new Product("5s", fivesCount.ToString(),(fivesCount *5).ToString()));
             DataSource.Products.Add(new Product("25s", qtrCount.ToString(), (qtrCount*25).ToString()));
@@ -352,6 +371,232 @@ namespace CloudCoinMAC
 
             
         }
+
+        partial void BackupClicked(NSObject sender)
+        {
+            var bankCoins = FS.LoadFolderCoins(FS.BankFolder);
+            var frackedCoins = FS.LoadFolderCoins(FS.FrackedFolder);
+            var partialCoins = FS.LoadFolderCoins(FS.PartialFolder);
+
+            // Add them all up in a single list for backup
+
+            bankCoins.AddRange(frackedCoins);
+            bankCoins.AddRange(partialCoins);
+
+            String[] bankFileNames = new DirectoryInfo(FS.BankFolder).
+                                                                                           GetFiles("*.stack").
+                                                                                           Select(o => o.Name).ToArray();//Get all files in suspect folder
+            if (bankCoins.Count == 0)
+            {
+                string msg = "No Coins found in bank for backup.";
+
+                var alert = new NSAlert()
+                {
+                    AlertStyle = NSAlertStyle.Warning,
+                    InformativeText = msg,
+                    MessageText = "Backup",
+                };
+                alert.AddButton("OK");
+                nint num = alert.RunModal();
+                return;
+            }
+            Banker bank = new Banker(FS);
+            int[] bankTotals = bank.countCoins(FS.BankFolder);
+            int[] frackedTotals = bank.countCoins(FS.FrackedFolder);
+            int[] partialTotals = bank.countCoins(FS.PartialFolder);
+
+            var dlg = NSOpenPanel.OpenPanel;
+            dlg.CanChooseFiles = false;
+            dlg.CanChooseDirectories = true;
+            dlg.AllowsMultipleSelection = false;
+            dlg.CanCreateDirectories = true;
+
+
+            if (dlg.RunModal() == 1)
+            {
+                string msg = "Are you sure you want to backup your CloudCoin Directory?";
+
+                var alert = new NSAlert()
+                {
+                    AlertStyle = NSAlertStyle.Warning,
+                    InformativeText = msg,
+                    MessageText = "Backup CloudCoins",
+                };
+                alert.AddButton("OK");
+                alert.AddButton("Cancel");
+
+                nint num = alert.RunModal();
+
+                if (num == 1000)
+                {
+                    FS.WriteCoinsToFile(bankCoins, dlg.Urls[0].Path + System.IO.Path.DirectorySeparatorChar + 
+                                        "backup" + DateTime.Now.ToString("yyyyMMddHHmmss").ToLower());
+                 
+                    //export(dlg.Urls[0].Path);
+                    String backupDir = dlg.Urls[0].Path;
+                    NSWorkspace.SharedWorkspace.SelectFile(backupDir,
+                                                           backupDir);
+
+                }
+
+            }
+           
+           
+
+        }
+
+        partial void ListSerialsClicked(NSObject sender)
+        {
+            var dlg = NSOpenPanel.OpenPanel;
+            dlg.CanChooseFiles = false;
+            dlg.CanChooseDirectories = true;
+            dlg.AllowsMultipleSelection = false;
+            dlg.CanCreateDirectories = true;
+
+            if (dlg.RunModal() == 1)
+            {
+                string msg = "Are you sure you want to List Serials?";
+
+                var alert = new NSAlert()
+                {
+                    AlertStyle = NSAlertStyle.Warning,
+                    InformativeText = msg,
+                    MessageText = "List CloudCoins Serials",
+                };
+                alert.AddButton("OK");
+                alert.AddButton("Cancel");
+
+                nint num = alert.RunModal();
+
+                if (num == 1000)
+                {
+
+
+                    //export(dlg.Urls[0].Path);
+                    String backupDir = dlg.Urls[0].Path;
+
+                    var csv = new StringBuilder();
+                    var coins = FS.LoadFolderCoins(backupDir).OrderBy(x => x.sn);
+
+                    var headerLine = string.Format("sn,denomination,nn,");
+                    string headeranstring = "";
+                    for (int i = 0; i < CloudCoinCore.Config.NodeCount; i++)
+                    {
+                        headeranstring += "an" + (i + 1) + ",";
+                    }
+
+                    // Write the Header Record
+                    csv.AppendLine(headerLine + headeranstring);
+
+                    // Write the Coin Serial Numbers
+                    foreach (var coin in coins)
+                    {
+                        string anstring = "";
+                        for (int i = 0; i < CloudCoinCore.Config.NodeCount; i++)
+                        {
+                            anstring += coin.an[i] + ",";
+                        }
+                        var newLine = string.Format("{0},{1},{2},{3}", coin.sn, coin.denomination, coin.nn, anstring);
+                        csv.AppendLine(newLine);
+                    }
+                    File.WriteAllText(backupDir + System.IO.Path.DirectorySeparatorChar + "coinserails" + DateTime.Now.ToString("yyyyMMddHHmmss").ToLower() + ".csv", csv.ToString());
+                    //Process.Start(backupDir);
+
+                    NSWorkspace.SharedWorkspace.SelectFile(backupDir,
+                                                           backupDir);
+
+                }
+
+            }
+        }
+        partial void ShowFolderClicked(NSObject sender)
+        {
+            NSWorkspace.SharedWorkspace.SelectFile(FS.RootPath,
+                                                   FS.RootPath);
+            var defaults = NSUserDefaults.StandardUserDefaults;
+            Console.WriteLine(defaults.StringForKey("workspace"));
+
+        }
+        partial void ExportClicked(NSObject sender)
+        {
+            export();
+        }
+        public void export()
+        {
+            
+
+
+            exportJpegStack = 2;
+            if (rdbStack.State == NSCellStateValue.On)
+            {
+                exportJpegStack = 2;
+            }
+            else
+                exportJpegStack = 1;
+            
+
+
+            Banker bank = new Banker(FS);
+            int[] bankTotals = bank.countCoins(FS.BankFolder);
+            int[] frackedTotals = bank.countCoins(FS.FrackedFolder);
+            int[] partialTotals = bank.countCoins(FS.PartialFolder);
+
+            //updateLog("  Your Bank Inventory:");
+            int grandTotal = (bankTotals[0] + frackedTotals[0] + partialTotals[0]);
+            // state how many 1, 5, 25, 100 and 250
+            int exp_1 = Convert.ToInt16(DataSource.Products[0].ExportCount);
+            int exp_5 = Convert.ToInt16(DataSource.Products[1].ExportCount);
+            int exp_25 = Convert.ToInt16(DataSource.Products[2].ExportCount);
+            int exp_100 = Convert.ToInt16(DataSource.Products[3].ExportCount);
+            int exp_250 = Convert.ToInt16(DataSource.Products[4].ExportCount);
+            //Warn if too many coins
+
+            if (exp_1 + exp_5 + exp_25 + exp_100 + exp_250 == 0)
+            {
+                Console.WriteLine("Can not export 0 coins");
+                return;
+            }
+
+            //updateLog(Convert.ToString(bankTotals[1] + frackedTotals[1] + bankTotals[2] + frackedTotals[2] + bankTotals[3] + frackedTotals[3] + bankTotals[4] + frackedTotals[4] + bankTotals[5] + frackedTotals[5] + partialTotals[1] + partialTotals[2] + partialTotals[3] + partialTotals[4] + partialTotals[5]));
+
+            if (((bankTotals[1] + frackedTotals[1]) + (bankTotals[2] + frackedTotals[2]) + (bankTotals[3] + frackedTotals[3]) + (bankTotals[4] + frackedTotals[4]) + (bankTotals[5] + frackedTotals[5]) + partialTotals[1] + partialTotals[2] + partialTotals[3] + partialTotals[4] + partialTotals[5]) > 1000)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Out.WriteLine("Warning: You have more than 1000 Notes in your bank. Stack files should not have more than 1000 Notes in them.");
+                Console.Out.WriteLine("Do not export stack files with more than 1000 notes. .");
+                //updateLog("Warning: You have more than 1000 Notes in your bank. Stack files should not have more than 1000 Notes in them.");
+                //updateLog("Do not export stack files with more than 1000 notes. .");
+
+                Console.ForegroundColor = ConsoleColor.White;
+            }//end if they have more than 1000 coins
+
+            int file_type = 0; //reader.readInt(1, 2);
+
+            Exporter exporter = new Exporter(FS);
+            //exporter.OnUpdateStatus +=  ;
+            file_type = exportJpegStack;
+
+            String tag = txtTag.StringValue;// reader.readString();
+                                            //Console.Out.WriteLine(("Exporting to:" + exportFolder));
+
+            if (file_type == 1)
+            {
+                exporter.writeJPEGFiles(exp_1, exp_5, exp_25, exp_100, exp_250, tag);
+            }
+            else
+            {
+                exporter.writeJSONFile(exp_1, exp_5, exp_25, exp_100, exp_250, tag);
+            }
+            // end if type jpge or stack
+            Console.Out.WriteLine("  Exporting CloudCoins Completed.");
+
+            NSWorkspace.SharedWorkspace.SelectFile(FS.ExportFolder,
+                                                   FS.ExportFolder);
+
+            //RefreshCoins?.Invoke(this, new EventArgs());
+
+            ShowCoins();
+        }// end export One
         public override NSObject RepresentedObject
         {
             get

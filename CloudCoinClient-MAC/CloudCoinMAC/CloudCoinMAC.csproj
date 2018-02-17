@@ -90,6 +90,7 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="CoreClasses\" />
+    <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -109,6 +110,7 @@
     <Compile Include="ProductTableDataSource.cs" />
     <Compile Include="ProductTableDelegate.cs" />
     <Compile Include="NewTableView.cs" />
+    <Compile Include="CoreClasses\Exporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -118,6 +120,23 @@
       <Project>{B50E5BBA-1697-4996-AC06-1DC7658D23A9}</Project>
       <Name>CloudCoinCoreStandard</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Templates\jpeg1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Templates\jpeg100.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Templates\jpeg25.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Templates\jpeg250.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Templates\jpeg5.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>
