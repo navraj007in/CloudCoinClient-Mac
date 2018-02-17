@@ -88,7 +88,7 @@ namespace CloudCoinCore
             Response detectResponse = new Response();
             detectResponse.fullRequest = this.fullUrl + "detect?nn=" + coin.nn + "&sn=" + coin.sn + "&an=" + coin.an[NodeNumber-1] + "&pan=" + coin.pan[NodeNumber-1] + "&denomination=" + coin.denomination + "&b=t";
             DateTime before = DateTime.Now;
-            coin.setAnsToPans();
+            coin.GeneratePAN();
             try
             {
                 detectResponse.fullResponse = await Utils.GetHtmlFromURL(detectResponse.fullRequest);
