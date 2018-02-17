@@ -108,6 +108,7 @@
     <Compile Include="Product.cs" />
     <Compile Include="ProductTableDataSource.cs" />
     <Compile Include="ProductTableDelegate.cs" />
+    <Compile Include="NewTableView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

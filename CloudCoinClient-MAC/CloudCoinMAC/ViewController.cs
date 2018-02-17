@@ -306,7 +306,7 @@ namespace CloudCoinMAC
 
             Debug.WriteLine("Detection Completed in - " + ts.TotalMilliseconds / 1000);
             updateLog("Detection Completed in - " + ts.TotalMilliseconds / 1000);
-
+            ShowCoins();
 
 
         }
@@ -337,19 +337,20 @@ namespace CloudCoinMAC
 
         }
 
-
         private void BindTable() 
         {
             var DataSource = new ProductTableDataSource();
             DataSource.Products.Add(new Product("1s", onesCount.ToString(), (onesCount.ToString())));
             DataSource.Products.Add(new Product("5s", fivesCount.ToString(),(fivesCount *5).ToString()));
             DataSource.Products.Add(new Product("25s", qtrCount.ToString(), (qtrCount*25).ToString()));
-            DataSource.Products.Add(new Product("10s", hundredsCount.ToString(), (hundredsCount*100).ToString()));
+            DataSource.Products.Add(new Product("100s", hundredsCount.ToString(), (hundredsCount*100).ToString()));
             DataSource.Products.Add(new Product("250s", twoFiftiesCount.ToString(), (twoFiftiesCount*250).ToString()));
 
             // Populate the Product Table
             ProductTable.DataSource = DataSource;
             ProductTable.Delegate = new ProductTableDelegate(DataSource);
+
+            
         }
         public override NSObject RepresentedObject
         {

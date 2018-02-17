@@ -44,14 +44,14 @@ namespace CloudCoinMAC
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (ProductTable != null) {
-				ProductTable.Dispose ();
-				ProductTable = null;
-			}
-
 			if (Export2DBarCodeClicked != null) {
 				Export2DBarCodeClicked.Dispose ();
 				Export2DBarCodeClicked = null;
+			}
+
+			if (ProductTable != null) {
+				ProductTable.Dispose ();
+				ProductTable = null;
 			}
 
 			if (txtLogs != null) {
