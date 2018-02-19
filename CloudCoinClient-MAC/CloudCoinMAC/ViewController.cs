@@ -61,6 +61,7 @@ namespace CloudCoinMAC
             base.ViewDidLoad();
             Title = "CloudCoin CE - 2.0";
 
+            printWelcome();
             ShowCoins();
             raidaLevel.MaxValue = raida.nodes.Count();
             Echo();
@@ -301,12 +302,12 @@ namespace CloudCoinMAC
                         coin.PassCount = countp;
                         coin.FailCount = countf;
                         CoinCount++;
-                        updateLog("No. " + CoinCount + ". Coin Detected. S. No. - " + coin.sn + ". Pass Count - " + 
-                                  coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + 
+                        updateLog("No. " + CoinCount + ". Coin Detected. S. No. : " + coin.sn + ". Pass Count : " + 
+                                  coin.PassCount + ". Fail Count  : " + coin.FailCount + ". Result : " + 
                                   coin.DetectionResult + "." + coin.pown + ".Pown Length-"+ coin.pown.Length);
 
 
-                        Debug.WriteLine("Coin Detected. S. No. - " + coin.sn + ". Pass Count - " + coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + coin.DetectionResult);
+                        Debug.WriteLine("Coin Detected. S. No. - " + coin.sn + ". Pass Count : " + coin.PassCount + ". Fail Count  : " + coin.FailCount + ". Result - " + coin.DetectionResult);
                         //coin.sortToFolder();
                         pge.MinorProgress = (CoinCount) * 100 / totalCoinCount;
                         //bar1.Value = pge.MinorProgress;
@@ -370,10 +371,10 @@ namespace CloudCoinMAC
             Debug.WriteLine("Total Passed Coins - " + passedCoins.Count());
             Debug.WriteLine("Total Failed Coins - " + failedCoins.Count());
             updateLog("Coin Detection finished.");
-            updateLog("Total Passed Coins - " + passedCoins.Count() + "");
-            updateLog("Total Failed Coins - " + failedCoins.Count() + "");
-            updateLog("Total Lost Coins - " + lostCoins.Count() + "");
-            updateLog("Total Suspect Coins - " + suspectCoins.Count() + "");
+            updateLog("Total Passed Coins : " + passedCoins.Count() + "");
+            updateLog("Total Failed Coins : " + failedCoins.Count() + "");
+            updateLog("Total Lost Coins : " + lostCoins.Count() + "");
+            updateLog("Total Suspect Coins : " + suspectCoins.Count() + "");
 
             // Move Coins to their respective folders after sort
             FS.MoveCoins(passedCoins, FS.DetectedFolder, FS.BankFolder);
@@ -392,8 +393,8 @@ namespace CloudCoinMAC
             after = DateTime.Now;
             ts = after.Subtract(before);
 
-            Debug.WriteLine("Detection Completed in - " + ts.TotalMilliseconds / 1000);
-            updateLog("Detection Completed in - " + ts.TotalMilliseconds / 1000);
+            Debug.WriteLine("Detection Completed in : " + ts.TotalMilliseconds / 1000);
+            updateLog("Detection Completed in : " + ts.TotalMilliseconds / 1000);
             ShowCoins();
 
 
@@ -597,6 +598,16 @@ namespace CloudCoinMAC
         {
             export();
         }
+
+        private void printWelcome()
+        {
+            updateLog("CloudCoin Consumers Edition");
+            updateLog("Version " + DateTime.Now.ToShortDateString());
+            updateLog("Used to Authenticate ,Store,Payout CloudCoins");
+            updateLog("This Software is provided as is with all faults, " +
+                      "defects and errors, and without warranty of any kind.Free from the CloudCoin Consortium.\n");
+        }
+
         public void export()
         {
             
