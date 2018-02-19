@@ -356,7 +356,7 @@ namespace CloudCoinCore
             setAnsToPansIfPassed();
             calculateHP();
             calcExpirationDate();
-            grade();
+            //grade();
         }
         public bool setPastStatus()
         {

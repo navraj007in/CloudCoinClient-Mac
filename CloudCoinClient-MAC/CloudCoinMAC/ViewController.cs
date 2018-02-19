@@ -80,6 +80,10 @@ namespace CloudCoinMAC
                 NSString str = new NSString(logLine + System.Environment.NewLine);
                 //txtProgress.StringValue += logLine + System.Environment.NewLine;
                 //txtProgress.InsertText(str);
+                
+                NSRange rang = new NSRange(txtLogs.Value.Length,0);
+
+                txtLogs.SetSelectedRange(rang);
                 txtLogs.InsertText(str);
 
             });
@@ -297,12 +301,12 @@ namespace CloudCoinMAC
                         coin.PassCount = countp;
                         coin.FailCount = countf;
                         CoinCount++;
-                        updateLog("No. " + CoinCount + ". Coin Deteced. S. No. - " + coin.sn + ". Pass Count - " + 
+                        updateLog("No. " + CoinCount + ". Coin Detected. S. No. - " + coin.sn + ". Pass Count - " + 
                                   coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + 
                                   coin.DetectionResult + "." + coin.pown + ".Pown Length-"+ coin.pown.Length);
 
 
-                        Debug.WriteLine("Coin Deteced. S. No. - " + coin.sn + ". Pass Count - " + coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + coin.DetectionResult);
+                        Debug.WriteLine("Coin Detected. S. No. - " + coin.sn + ". Pass Count - " + coin.PassCount + ". Fail Count  - " + coin.FailCount + ". Result - " + coin.DetectionResult);
                         //coin.sortToFolder();
                         pge.MinorProgress = (CoinCount) * 100 / totalCoinCount;
                         //bar1.Value = pge.MinorProgress;
@@ -339,6 +343,9 @@ namespace CloudCoinMAC
             Debug.WriteLine("Minor Progress- " + pge.MinorProgress);
             raida.OnProgressChanged(pge);
             var detectedCoins = FS.LoadFolderCoins(FS.DetectedFolder);
+            detectedCoins.ForEach(x => x.setAnsToPansIfPassed());
+            detectedCoins.ForEach(x => x.calculateHP());
+            detectedCoins.ForEach(x => x.calcExpirationDate());
 
             detectedCoins.ForEach(x => x.sortToFolder());
             //foreach (var coin in detectedCoins)
