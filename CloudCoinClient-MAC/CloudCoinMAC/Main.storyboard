@@ -675,7 +675,7 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" misplaced="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="819" height="426"/>
+                        <rect key="frame" x="0.0" y="0.0" width="869" height="426"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" id="EjL-nt-hHz">
@@ -734,17 +734,17 @@
                                 </connections>
                             </button>
                             <scrollView misplaced="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="o3g-9y-ijf">
-                                <rect key="frame" x="49" y="90" width="465" height="246"/>
+                                <rect key="frame" x="49" y="90" width="495" height="246"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="NDx-ip-YA7">
-                                    <rect key="frame" x="1" y="1" width="463" height="244"/>
+                                    <rect key="frame" x="1" y="1" width="493" height="244"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="xWE-c9-o1U">
-                                            <rect key="frame" x="0.0" y="0.0" width="463" height="244"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="493" height="244"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="463" height="244"/>
+                                            <size key="minSize" width="493" height="244"/>
                                             <size key="maxSize" width="636" height="10000000"/>
                                             <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </textView>
@@ -756,15 +756,15 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="mdO-gI-fyi">
-                                    <rect key="frame" x="448" y="1" width="16" height="244"/>
+                                    <rect key="frame" x="478" y="1" width="16" height="244"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <scrollView misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="YMH-Bv-34z">
-                                <rect key="frame" x="522" y="90" width="277" height="246"/>
+                                <rect key="frame" x="555" y="90" width="294" height="246"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="oDe-ZA-F2D">
-                                    <rect key="frame" x="1" y="0.0" width="275" height="245"/>
+                                    <rect key="frame" x="1" y="0.0" width="292" height="245"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="683-u4-ros" viewBased="YES" id="fEa-Re-vjZ">
@@ -947,7 +947,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="cjE-pe-stV">
-                                    <rect key="frame" x="1" y="229" width="275" height="16"/>
+                                    <rect key="frame" x="1" y="229" width="292" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="mbg-Hh-4kA">
@@ -960,7 +960,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <box misplaced="YES" title="Export" id="ToJ-zn-TU2">
-                                <rect key="frame" x="46" y="21" width="515" height="61"/>
+                                <rect key="frame" x="54" y="21" width="515" height="61"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" id="0WQ-EN-vYV">
                                     <rect key="frame" x="2" y="2" width="511" height="44"/>
@@ -1043,12 +1043,12 @@
                                 </buttonCell>
                             </button>
                             <levelIndicator verticalHuggingPriority="750" misplaced="YES" id="5Cy-XR-a5B">
-                                <rect key="frame" x="145" y="351" width="490" height="16"/>
+                                <rect key="frame" x="145" y="358" width="490" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <levelIndicatorCell key="cell" alignment="left" maxValue="25" warningValue="2" criticalValue="2" id="yYd-uK-YeY"/>
                             </levelIndicator>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="HT0-xI-47y">
-                                <rect key="frame" x="54" y="351" width="85" height="17"/>
+                                <rect key="frame" x="54" y="359" width="85" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="RAIDA Status" id="PyK-mO-KEW">
                                     <font key="font" metaFont="system"/>
@@ -1074,12 +1074,33 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" id="8aj-Zh-LXs">
+                                <rect key="frame" x="54" y="341" width="573" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Workspace :" id="wPI-20-cao">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" misplaced="YES" id="S4V-20-C7R">
+                                <rect key="frame" x="697" y="381" width="158" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Change Workspace" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CjY-kH-B1R">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="ChangeWorkSpace:" target="XfG-lQ-9wD" id="dRJ-ke-cF5"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="Export2DBarCodeClicked" destination="eXS-SI-3L1" id="kit-t0-GLA"/>
                         <outlet property="ProductTable" destination="fEa-Re-vjZ" id="ujy-ai-WWO"/>
                         <outlet property="lblBankTotal" destination="9q6-tx-2JB" id="1vQ-1H-xnm"/>
+                        <outlet property="lblWorkspace" destination="8aj-Zh-LXs" id="U0X-Zm-LVb"/>
                         <outlet property="raidaLevel" destination="yYd-uK-YeY" id="ybh-wP-tML"/>
                         <outlet property="rdbJpeg" destination="gAX-0R-Hi8" id="cvP-Td-7w5"/>
                         <outlet property="rdbStack" destination="Uao-rX-SkF" id="6Az-s1-Qsk"/>
@@ -1090,7 +1111,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="244.5" y="946"/>
+            <point key="canvasLocation" x="269.5" y="946"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="500-ye-0aN">

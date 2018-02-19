@@ -23,7 +23,7 @@ namespace CloudCoinMAC
         
         public AppDelegate()
         {
-            defaults.SetString("", Config.WorkSpaceKey);
+            //defaults.SetString("", Config.WorkSpaceKey);
             try
             {
                 ws = defaults.StringForKey(Config.WorkSpaceKey);

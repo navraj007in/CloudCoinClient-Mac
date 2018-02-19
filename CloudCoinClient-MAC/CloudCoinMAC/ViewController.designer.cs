@@ -19,6 +19,9 @@ namespace CloudCoinMAC
 		AppKit.NSTextField lblBankTotal { get; set; }
 
 		[Outlet]
+		AppKit.NSTextField lblWorkspace { get; set; }
+
+		[Outlet]
 		AppKit.NSTableView ProductTable { get; set; }
 
 		[Outlet]
@@ -38,6 +41,9 @@ namespace CloudCoinMAC
 
 		[Action ("BackupClicked:")]
 		partial void BackupClicked (Foundation.NSObject sender);
+
+		[Action ("ChangeWorkSpace:")]
+		partial void ChangeWorkSpace (Foundation.NSObject sender);
 
 		[Action ("EchoClick:")]
 		partial void EchoClick (Foundation.NSObject sender);
@@ -65,24 +71,24 @@ namespace CloudCoinMAC
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (lblBankTotal != null) {
-				lblBankTotal.Dispose ();
-				lblBankTotal = null;
-			}
-
 			if (Export2DBarCodeClicked != null) {
 				Export2DBarCodeClicked.Dispose ();
 				Export2DBarCodeClicked = null;
 			}
 
-			if (raidaLevel != null) {
-				raidaLevel.Dispose ();
-				raidaLevel = null;
+			if (lblBankTotal != null) {
+				lblBankTotal.Dispose ();
+				lblBankTotal = null;
 			}
 
 			if (ProductTable != null) {
 				ProductTable.Dispose ();
 				ProductTable = null;
+			}
+
+			if (raidaLevel != null) {
+				raidaLevel.Dispose ();
+				raidaLevel = null;
 			}
 
 			if (rdbJpeg != null) {
@@ -103,6 +109,11 @@ namespace CloudCoinMAC
 			if (txtTag != null) {
 				txtTag.Dispose ();
 				txtTag = null;
+			}
+
+			if (lblWorkspace != null) {
+				lblWorkspace.Dispose ();
+				lblWorkspace = null;
 			}
 		}
 	}

@@ -53,18 +53,19 @@ namespace CloudCoinMAC
 
         public ViewController(IntPtr handle) : base(handle)
         {
-            
+           
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            Title = "CloudCoin CE - 2.0";
-
+            Title = "CloudCoin CE - 1.0";
+            lblWorkspace.StringValue = FS.RootPath;
             printWelcome();
             ShowCoins();
             raidaLevel.MaxValue = raida.nodes.Count();
             Echo();
+
             // Do any additional setup after loading the view.
         }
 
@@ -224,8 +225,8 @@ namespace CloudCoinMAC
         public async void Echo()
         {
             var echos = AppDelegate.raida.GetEchoTasks();
-            updateLog("Starting Echo to RAIDA\n");
-            updateLog("----------------------------------\n");
+            updateLog("Starting Echo to RAIDA");
+            updateLog("----------------------------------");
 
             await Task.WhenAll(echos.AsParallel().Select(async task => await task()));
             //MessageBox.Show("Finished Echo");
@@ -244,8 +245,8 @@ namespace CloudCoinMAC
             raidaLevel.IntValue = raida.ReadyCount;
 
             Debug.WriteLine("-----------------------------------\n");
-            updateLog("Ready Nodes-" + Convert.ToString(raida.ReadyCount) + "\n");
-            updateLog("Not Ready Nodes-" + Convert.ToString(raida.NotReadyCount) + "\n");
+            updateLog("Ready Nodes : " + Convert.ToString(raida.ReadyCount) + "\n");
+            updateLog("Not Ready Nodes : " + Convert.ToString(raida.NotReadyCount) + "\n");
 
             Debug.WriteLine("Ready Nodes-" + Convert.ToString(raida.ReadyCount));
             Debug.WriteLine("Not Ready Nodes-" + Convert.ToString(raida.NotReadyCount));
@@ -588,11 +589,7 @@ namespace CloudCoinMAC
         }
         partial void ShowFolderClicked(NSObject sender)
         {
-            NSWorkspace.SharedWorkspace.SelectFile(FS.RootPath,
-                                                   FS.RootPath);
-            var defaults = NSUserDefaults.StandardUserDefaults;
-            Console.WriteLine(defaults.StringForKey("workspace"));
-
+            NSWorkspace.SharedWorkspace.OpenFile(FS.RootPath);
         }
         partial void ExportClicked(NSObject sender)
         {
@@ -601,11 +598,74 @@ namespace CloudCoinMAC
 
         private void printWelcome()
         {
-            updateLog("CloudCoin Consumers Edition");
-            updateLog("Version " + DateTime.Now.ToShortDateString());
+            updateLog("CloudCoin Consumers Edition" );
+            updateLog("Version " + NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString() 
+                      + "\nDated :" + DateTime.Now.ToShortDateString());
             updateLog("Used to Authenticate ,Store,Payout CloudCoins");
             updateLog("This Software is provided as is with all faults, " +
                       "defects and errors, and without warranty of any kind.Free from the CloudCoin Consortium.\n");
+        }
+
+        partial void ChangeWorkSpace(NSObject sender)
+        {
+            var dlg = NSOpenPanel.OpenPanel;
+            dlg.CanChooseFiles = false;
+            dlg.CanChooseDirectories = true;
+            dlg.AllowsMultipleSelection = false;
+            dlg.CanCreateDirectories = true;
+
+
+            if (dlg.RunModal() == 1)
+            {
+                string msg = "Are you sure you want to change your CloudCoin Directory?";
+
+                var alert = new NSAlert()
+                {
+                    AlertStyle = NSAlertStyle.Warning,
+                    InformativeText = msg,
+                    MessageText = "Change Workspace",
+                };
+                alert.AddButton("OK");
+                alert.AddButton("Cancel");
+
+                nint num = alert.RunModal();
+
+                if (num == 1000)
+                {
+                    string msgRestart = "Changing the workspace will require you to manually restart the Application.Contniue?";
+                    var alertRestart = new NSAlert()
+                    {
+                        AlertStyle = NSAlertStyle.Warning,
+                        InformativeText = msgRestart,
+                        MessageText = "Restart CloudCoin CE",
+                    };
+                    alertRestart.AddButton("Yes");
+                    alertRestart.AddButton("No");
+
+                    nint numRestart = alertRestart.RunModal();
+                    if (numRestart == 1000)
+                    {
+                        Console.WriteLine(dlg.Urls[0].Path);
+                        var defaults = NSUserDefaults.StandardUserDefaults;
+                        defaults.SetString(dlg.Urls[0].Path + System.IO.Path.DirectorySeparatorChar, "workspace");
+
+                        string RootPath = defaults.StringForKey("workspace");
+                        FileSystem fileUtils = new FileSystem(RootPath); 
+
+                        fileUtils.CreateFolderStructure();
+                        System.Diagnostics.Process.GetCurrentProcess().Kill();
+                        AppDelegate.FS = new FileSystem(RootPath);
+
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+
+
+            }
         }
 
         public void export()
@@ -675,11 +735,11 @@ namespace CloudCoinMAC
                 exporter.writeJSONFile(exp_1, exp_5, exp_25, exp_100, exp_250, tag);
             }
             // end if type jpge or stack
-            Console.Out.WriteLine("  Exporting CloudCoins Completed.");
+            Console.Out.WriteLine("Exporting CloudCoins Completed.");
 
-            NSWorkspace.SharedWorkspace.SelectFile(FS.ExportFolder,
-                                                   FS.ExportFolder);
-
+            //NSWorkspace.SharedWorkspace.SelectFile(FS.ExportFolder,
+              //                                     FS.ExportFolder);
+            NSWorkspace.SharedWorkspace.OpenFile(FS.ExportFolder);
             //RefreshCoins?.Invoke(this, new EventArgs());
 
             ShowCoins();
