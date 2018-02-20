@@ -1042,6 +1042,17 @@
                                     </connections>
                                 </buttonCell>
                             </button>
+                            <button verticalHuggingPriority="750" misplaced="YES" id="S4V-20-C7R">
+                                <rect key="frame" x="697" y="381" width="158" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Change Workspace" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CjY-kH-B1R">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="ChangeWorkSpace:" target="XfG-lQ-9wD" id="dRJ-ke-cF5"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
                             <levelIndicator verticalHuggingPriority="750" misplaced="YES" id="5Cy-XR-a5B">
                                 <rect key="frame" x="145" y="358" width="490" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1056,17 +1067,8 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" id="Wj9-CO-rjr">
-                                <rect key="frame" x="640" y="351" width="68" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Bank Total" id="3W7-HS-a7R">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" id="9q6-tx-2JB">
-                                <rect key="frame" x="712" y="350" width="89" height="17"/>
+                                <rect key="frame" x="721" y="359" width="130" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="0" id="pDh-A1-JGb">
                                     <font key="font" metaFont="system"/>
@@ -1083,17 +1085,15 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" misplaced="YES" id="S4V-20-C7R">
-                                <rect key="frame" x="697" y="381" width="158" height="32"/>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" id="Wj9-CO-rjr">
+                                <rect key="frame" x="649" y="359" width="68" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Change Workspace" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CjY-kH-B1R">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Bank Total" id="3W7-HS-a7R">
                                     <font key="font" metaFont="system"/>
-                                    <connections>
-                                        <action selector="ChangeWorkSpace:" target="XfG-lQ-9wD" id="dRJ-ke-cF5"/>
-                                    </connections>
-                                </buttonCell>
-                            </button>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
