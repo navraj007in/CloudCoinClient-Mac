@@ -66,15 +66,22 @@ namespace CloudCoinMAC
             raidaLevel.MaxValue = raida.nodes.Count();
             Echo();
 
+            txtOnes.Formatter = new NumberOnlyFormattter();
+            txtFives.Formatter = new NumberOnlyFormattter();
+            txtQtrs.Formatter = new NumberOnlyFormattter();
+            txtHundreds.Formatter = new NumberOnlyFormattter();
+            txtQtrs.Formatter = new NumberOnlyFormattter();
+            
             // Do any additional setup after loading the view.
         }
+
 
         partial void EchoClick(NSObject sender)
         {
             Echo();
             ShowCoins();
         }
-
+        
         public void updateLog(string logLine)
         {
             BeginInvokeOnMainThread(() =>
@@ -360,6 +367,10 @@ namespace CloudCoinMAC
                                where x.folder == FS.BankFolder
                                select x).ToList();
 
+            var frackedCoins = (from x in detectedCoins
+                                where x.folder == FS.FrackedFolder
+                               select x).ToList();
+
             var failedCoins = (from x in detectedCoins
                                where x.folder == FS.CounterfeitFolder
                                select x).ToList();
@@ -373,13 +384,14 @@ namespace CloudCoinMAC
             Debug.WriteLine("Total Passed Coins - " + passedCoins.Count());
             Debug.WriteLine("Total Failed Coins - " + failedCoins.Count());
             updateLog("Coin Detection finished.");
-            updateLog("Total Passed Coins : " + passedCoins.Count() + "");
+            updateLog("Total Passed Coins : " + (passedCoins.Count() + frackedCoins.Count()) + "");
             updateLog("Total Failed Coins : " + failedCoins.Count() + "");
             updateLog("Total Lost Coins : " + lostCoins.Count() + "");
             updateLog("Total Suspect Coins : " + suspectCoins.Count() + "");
 
             // Move Coins to their respective folders after sort
             FS.MoveCoins(passedCoins, FS.DetectedFolder, FS.BankFolder);
+            FS.MoveCoins(frackedCoins, FS.DetectedFolder, FS.FrackedFolder);
             FS.WriteCoin(failedCoins, FS.CounterfeitFolder, true);
             FS.MoveCoins(lostCoins, FS.DetectedFolder, FS.LostFolder);
             FS.MoveCoins(suspectCoins, FS.DetectedFolder, FS.SuspectFolder);
@@ -692,11 +704,11 @@ namespace CloudCoinMAC
             //updateLog("  Your Bank Inventory:");
             int grandTotal = (bankTotals[0] + frackedTotals[0] + partialTotals[0]);
             // state how many 1, 5, 25, 100 and 250
-            int exp_1 = Convert.ToInt16(DataSource.Products[0].ExportCount);
-            int exp_5 = Convert.ToInt16(DataSource.Products[1].ExportCount);
-            int exp_25 = Convert.ToInt16(DataSource.Products[2].ExportCount);
-            int exp_100 = Convert.ToInt16(DataSource.Products[3].ExportCount);
-            int exp_250 = Convert.ToInt16(DataSource.Products[4].ExportCount);
+            int exp_1 = Convert.ToInt16(txtOnes.IntValue);
+            int exp_5 = Convert.ToInt16(txtFives.IntValue);
+            int exp_25 = Convert.ToInt16(txtQtrs.IntValue);
+            int exp_100 = Convert.ToInt16(txtHundreds.IntValue);
+            int exp_250 = Convert.ToInt16(txtTwoFifties.IntValue);
             //Warn if too many coins
 
             if (exp_1 + exp_5 + exp_25 + exp_100 + exp_250 == 0)

@@ -114,6 +114,7 @@
     <Compile Include="ProductTableDelegate.cs" />
     <Compile Include="NewTableView.cs" />
     <Compile Include="CoreClasses\Exporter.cs" />
+    <Compile Include="NumberOnlyFormattter.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
