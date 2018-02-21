@@ -65,7 +65,7 @@ namespace CloudCoinCore
                 if(ext == ".jpeg" || ext == ".jpg")
                 {
                     try {
-                        var coin = loadOneCloudCoinFromJPEGFile(files[i]);
+                        var coin = importJPEG(files[i]);
                         folderCoins.Add(coin);
                     }
                     catch (Exception e)
@@ -76,6 +76,64 @@ namespace CloudCoinCore
             };
 
             return folderCoins;
+        }
+
+        private CloudCoin importJPEG(String fileName)//Move one jpeg to suspect folder. 
+        {
+            // bool isSuccessful = false;
+            // Console.Out.WriteLine("Trying to load: " + this.fileUtils.importFolder + fileName );
+            Debug.WriteLine("Trying to load: " + ImportFolder + fileName);
+            try
+            {
+                //  Console.Out.WriteLine("Loading coin: " + fileUtils.importFolder + fileName);
+                //CloudCoin tempCoin = this.fileUtils.loadOneCloudCoinFromJPEGFile( fileUtils.importFolder + fileName );
+
+                /*Begin import from jpeg*/
+
+                /* GET the first 455 bytes of he jpeg where the coin is located */
+                String wholeString = "";
+                byte[] jpegHeader = new byte[455];
+                // Console.Out.WriteLine("Load file path " + fileUtils.importFolder + fileName);
+                FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                try
+                {
+                    int count;                            // actual number of bytes read
+                    int sum = 0;                          // total number of bytes read
+
+                    // read until Read method returns 0 (end of the stream has been reached)
+                    while ((count = fileStream.Read(jpegHeader, sum, 455 - sum)) > 0)
+                        sum += count;  // sum is a buffer offset for next reading
+                }
+                finally
+                {
+                    fileStream.Dispose();
+                    //fileStream.Close();
+                }
+                wholeString = bytesToHexString(jpegHeader);
+
+                CloudCoin tempCoin = parseJpeg(wholeString);
+                // Console.Out.WriteLine("From FileUtils returnCC.fileName " + tempCoin.fileName);
+
+                /*end import from jpeg file */
+
+
+
+                //   Console.Out.WriteLine("Loaded coin filename: " + tempCoin.fileName);
+
+                writeTo(SuspectFolder, tempCoin);
+                return tempCoin;
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.Out.WriteLine("File not found: " + fileName + ex);
+                //CoreLogger.Log("File not found: " + fileName + ex);
+            }
+            catch (IOException ioex)
+            {
+                Console.Out.WriteLine("IO Exception:" + fileName + ioex);
+                //CoreLogger.Log("IO Exception:" + fileName + ioex);
+            }// end try catch
+            return null;
         }
 
         public CloudCoin LoadCoin(string fileName)
@@ -507,8 +565,8 @@ namespace CloudCoinCore
             int startAn = 40;
             for (int i = 0; i < 25; i++)
             {
-
-                cc.an[i] = wholeString.Substring(startAn, 32);
+                cc.an.Add(wholeString.Substring(startAn, 32));
+                //cc.an[i] = wholeString.Substring(startAn, 32);
                 // Console.Out.WriteLine(i +": " + cc.an[i]);
                 startAn += 32;
             }

@@ -203,6 +203,8 @@ namespace CloudCoinMAC
                         }
 
                     }
+                    File.Delete(filename);
+
                     updateLog("Copied " + filename + "to " +
                               FS.ImportFolder + Path.GetFileName(filename));
 
@@ -390,11 +392,11 @@ namespace CloudCoinMAC
             updateLog("Total Suspect Coins : " + suspectCoins.Count() + "");
 
             // Move Coins to their respective folders after sort
-            FS.MoveCoins(passedCoins, FS.DetectedFolder, FS.BankFolder);
-            FS.MoveCoins(frackedCoins, FS.DetectedFolder, FS.FrackedFolder);
+            FS.TransferCoins(passedCoins, FS.DetectedFolder, FS.BankFolder);
+            FS.TransferCoins(frackedCoins, FS.DetectedFolder, FS.FrackedFolder);
             FS.WriteCoin(failedCoins, FS.CounterfeitFolder, true);
             FS.MoveCoins(lostCoins, FS.DetectedFolder, FS.LostFolder);
-            FS.MoveCoins(suspectCoins, FS.DetectedFolder, FS.SuspectFolder);
+            FS.TransferCoins(suspectCoins, FS.DetectedFolder, FS.SuspectFolder);
 
             // Clean up Detected Folder
             FS.RemoveCoins(failedCoins, FS.DetectedFolder);

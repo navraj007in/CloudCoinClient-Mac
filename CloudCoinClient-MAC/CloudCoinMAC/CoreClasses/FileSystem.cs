@@ -212,6 +212,35 @@ namespace CloudCoinClientMAC.CoreClasses
             }
         }
 
+        public void TransferCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder)
+        {
+            var folderCoins = LoadFolderCoins(targetFolder);
+
+            foreach (var coin in coins)
+            {
+                string fileName = coin.FileName;
+                try
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                    serializer.NullValueHandling = NullValueHandling.Ignore;
+                    Stack stack = new Stack(coin);
+                    using (StreamWriter sw = new StreamWriter(targetFolder + fileName + ".stack"))
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        serializer.Serialize(writer, stack);
+                    }
+                    File.Delete(sourceFolder + coin.FileName + ".stack");
+                }
+                catch (Exception e)
+                {
+
+                }
+
+
+            }
+        }
+
         public void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder)
         {
             var folderCoins = LoadFolderCoins(targetFolder);
