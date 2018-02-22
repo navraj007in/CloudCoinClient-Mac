@@ -226,6 +226,7 @@ namespace CloudCoinCore
             {
                 if(options== FileMoveOptions.Replace)
                 {
+                    File.Delete(TargetPath);
                     File.Move(SourcePath, TargetPath);
                 }
                 if(options== FileMoveOptions.Rename)
