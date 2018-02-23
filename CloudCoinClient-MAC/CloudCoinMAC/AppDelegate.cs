@@ -47,6 +47,10 @@ namespace CloudCoinMAC
             Setup();
         }
 
+        public override bool ApplicationShouldTerminateAfterLastWindowClosed(NSApplication sender)
+        {
+            return true;
+        }
         public void Setup()
         {
             FS = new FileSystem(RootPath);

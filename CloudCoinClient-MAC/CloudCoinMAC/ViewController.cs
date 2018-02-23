@@ -76,7 +76,7 @@ namespace CloudCoinMAC
             // Do any additional setup after loading the view.
         }
 
-
+        
         partial void EchoClick(NSObject sender)
         {
             Echo();
@@ -594,41 +594,46 @@ namespace CloudCoinMAC
 
                 if (num == 1000)
                 {
-
-
-                    //export(dlg.Urls[0].Path);
                     String backupDir = dlg.Urls[0].Path;
+                    NSSavePanel panel = new NSSavePanel();
+                    panel.DirectoryUrl = new NSUrl(backupDir);
+                    String dirName = new DirectoryInfo(backupDir).Name;
 
-                    var csv = new StringBuilder();
-                    var coins = FS.LoadFolderCoins(backupDir).OrderBy(x => x.sn);
+                    panel.NameFieldStringValue = "CoinList" + DateTime.Now.ToString("yyyy.MM.dd").ToLower() + "." + dirName + ".csv";
+                    nint result = panel.RunModal();
 
-                    var headerLine = string.Format("sn,denomination,nn,");
-                    string headeranstring = "";
-                    for (int i = 0; i < CloudCoinCore.Config.NodeCount; i++)
-                    {
-                        headeranstring += "an" + (i + 1) + ",";
-                    }
+                    if(result == 1) {
 
-                    // Write the Header Record
-                    csv.AppendLine(headerLine + headeranstring);
+                        var csv = new StringBuilder();
+                        var coins = FS.LoadFolderCoins(backupDir).OrderBy(x => x.sn);
 
-                    // Write the Coin Serial Numbers
-                    foreach (var coin in coins)
-                    {
-                        string anstring = "";
+                        var headerLine = string.Format("sn,denomination,nn,");
+                        string headeranstring = "";
                         for (int i = 0; i < CloudCoinCore.Config.NodeCount; i++)
                         {
-                            anstring += coin.an[i] + ",";
+                            headeranstring += "an" + (i + 1) + ",";
                         }
-                        var newLine = string.Format("{0},{1},{2},{3}", coin.sn, coin.denomination, coin.nn, anstring);
-                        csv.AppendLine(newLine);
+
+                        // Write the Header Record
+                        csv.AppendLine(headerLine + headeranstring);
+
+                        // Write the Coin Serial Numbers
+                        foreach (var coin in coins)
+                        {
+                            string anstring = "";
+                            for (int i = 0; i < CloudCoinCore.Config.NodeCount; i++)
+                            {
+                                anstring += coin.an[i] + ",";
+                            }
+                            var newLine = string.Format("{0},{1},{2},{3}", coin.sn, coin.denomination, coin.nn, anstring);
+                            csv.AppendLine(newLine);
+                        }
+
+                        string targetPath = panel.Url.Path;
+                        File.WriteAllText(targetPath, csv.ToString());
+                        NSWorkspace.SharedWorkspace.SelectFile(backupDir,
+                                                               backupDir);   
                     }
-                    File.WriteAllText(backupDir + System.IO.Path.DirectorySeparatorChar + "coinserails" + DateTime.Now.ToString("yyyyMMddHHmmss").ToLower() + ".csv", csv.ToString());
-                    //Process.Start(backupDir);
-
-                    NSWorkspace.SharedWorkspace.SelectFile(backupDir,
-                                                           backupDir);
-
                 }
 
             }
