@@ -418,7 +418,7 @@ namespace CloudCoinCore
             pastPown = pown;
         }//end record pown
 
-        public void sortToFolder()
+        public void SortToFolder()
         {
             //figures out which folder to put it in. 
             if (isPerfect())
@@ -435,44 +435,49 @@ namespace CloudCoinCore
                 return;
             }//if is counterfeit
 
-
-            if (!isFracked())
-            {
-                folder = RAIDA.GetInstance().FS.BankFolder;
-                return;
-            }//if is has no failes but some undetected but is gradable
-
             //--------------------------------------
             /*Now look  at fracked coins*/
 
-
-
-            if (isDangerous())//Previous owner could try to take it back. 
+            if (isGradablePass())
             {
-
-                if (!isFixable())
+                if (!isFracked())
                 {
-                    folder = RAIDA.GetInstance().FS.CounterfeitFolder;
-
+                    folder = RAIDA.GetInstance().FS.BankFolder;
                     return;
-                }//end if not fixable
+                }
+                else
+                {
+                    if (isDangerous())
+                    {
+                        if (isFixable())
+                        {
+                            recordPown();
+                            folder = RAIDA.GetInstance().FS.DangerousFolder;
+                            return;
+
+                        }
+                        else
+                        {
+                            folder = RAIDA.GetInstance().FS.CounterfeitFolder;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (!isFixable())
+                        {
+                            folder = RAIDA.GetInstance().FS.CounterfeitFolder;
+                            return;
+                        }
+                        else
+                        {
+                            folder = RAIDA.GetInstance().FS.FrackedFolder;
+                            return;
+                        }
+                    }
+                }
             }
             else
-            {
-                if (isFixable())
-                {
-                    folder = RAIDA.GetInstance().FS.FrackedFolder;
-                    return;
-                }//end if not fixable 
-            }//end if is dangerous
-
-
-
-            recordPown();
-            folder = RAIDA.GetInstance().FS.DangerousFolder;
-            //folder = Folder.Dangerous;//If you get down here, the coin is dangerous and needs to be defracked then detected again.
-
-            if (!isGradablePass())
             {
                 if (noResponses())
                 {
@@ -480,12 +485,14 @@ namespace CloudCoinCore
                     //folder = Folder.Lost;
                     return;
                 }//end no responses
-                folder = RAIDA.GetInstance().FS.SuspectFolder;
-                //folder = Folder.Suspect;
-                return;
-            }//if is gradable
+                else
+                {
+                    folder = RAIDA.GetInstance().FS.SuspectFolder;
+                    //folder = Folder.Lost;
+                    return;
+                }
+            }
         }//end sort folder
-
         public bool noResponses()
         {
             //Does the coin have no-responses from the RIDA. This means the RAIDA may be using its PAN or AN

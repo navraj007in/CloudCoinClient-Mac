@@ -319,7 +319,8 @@ namespace CloudCoinMAC
                 var tasks = raida.GetMultiDetectTasks(coins.ToArray(), CloudCoinCore.Config.milliSecondsToTimeOut);
                 try
                 {
-                    string requestFileName = Utils.RandomString(16).ToLower() + DateTime.Now.ToString("yyyyMMddHHmmss") + ".stack";
+                    string requestFileName = coins.Count()+ ".CloudCoins."+ Utils.RandomString(16).ToLower() + 
+                                                                            DateTime.Now.ToString("yyyyMMddHHmmss") + ".stack";
                     // Write Request To file before detect
                     FS.WriteCoinsToFile(coins, FS.RequestsFolder + requestFileName);
                     await Task.WhenAll(tasks.AsParallel().Select(async task => await task()));
@@ -383,7 +384,7 @@ namespace CloudCoinMAC
             detectedCoins.ForEach(x => x.calculateHP());
             detectedCoins.ForEach(x => x.calcExpirationDate());
 
-            detectedCoins.ForEach(x => x.sortToFolder());
+            detectedCoins.ForEach(x => x.SortToFolder());
             //foreach (var coin in detectedCoins)
             //{
             //    //updateLog()
@@ -406,7 +407,11 @@ namespace CloudCoinMAC
             var suspectCoins = (from x in detectedCoins
                                 where x.folder == FS.SuspectFolder
                                 select x).ToList();
-
+            var dangerousCoins = (from x in detectedCoins
+                                  where x.folder == FS.DangerousFolder
+                                  select x).ToList();
+            
+           
             Debug.WriteLine("Total Passed Coins - " + passedCoins.Count());
             Debug.WriteLine("Total Failed Coins - " + failedCoins.Count());
             updateLog("Coin Detection finished.");
@@ -422,6 +427,7 @@ namespace CloudCoinMAC
             FS.WriteCoin(failedCoins, FS.CounterfeitFolder, true);
             FS.MoveCoins(lostCoins, FS.DetectedFolder, FS.LostFolder);
             FS.TransferCoins(suspectCoins, FS.DetectedFolder, FS.SuspectFolder);
+            FS.MoveCoins(dangerousCoins, FS.DetectedFolder, FS.DangerousFolder);
 
             // Clean up Detected Folder
             FS.RemoveCoins(failedCoins, FS.DetectedFolder);
@@ -437,8 +443,8 @@ namespace CloudCoinMAC
             Debug.WriteLine("Detection Completed in : " + ts.TotalMilliseconds / 1000);
             updateLog("Detection Completed in : " + ts.TotalMilliseconds / 1000);
             ShowCoins();
-
-
+            FS.LoadFileSystem();
+ 
         }
 
         private void ShowCoins()
@@ -672,7 +678,7 @@ namespace CloudCoinMAC
 
                 if (num == 1000)
                 {
-                    string msgRestart = "Changing the workspace will require you to manually restart the Application.Contniue?";
+                    string msgRestart = "Changing the workspace will require you to manually restart the Application. Contniue?";
                     var alertRestart = new NSAlert()
                     {
                         AlertStyle = NSAlertStyle.Warning,
