@@ -45,7 +45,7 @@ namespace CloudCoinCore
                 {
                     /*3. GET TICKETS AND UPDATE RAIDA STATUS TICKETS*/
                     string[] ans = { cc.an[trustedTriad[0]], cc.an[trustedTriad[1]], cc.an[trustedTriad[2]] };
-                    raida.get_Tickets(trustedTriad, ans, cc.nn, cc.sn, cu.getDenomination(), 3000);
+                    raida.GetTickets(trustedTriad, ans, cc.nn, cc.sn, cu.getDenomination(), 3000);
                     
                     /*4. ARE ALL TICKETS GOOD?*/
                     if (raida.nodes[trustedTriad[0]].HasTicket && raida.nodes[trustedTriad[1]].HasTicket && raida.nodes[trustedTriad[2]].HasTicket)

@@ -72,7 +72,10 @@ namespace CloudCoinMAC
             txtQtrs.Formatter = new NumberOnlyFormattter();
             txtHundreds.Formatter = new NumberOnlyFormattter();
             txtQtrs.Formatter = new NumberOnlyFormattter();
-            
+
+            Task.Run(() => { 
+                fix();
+            });
             // Do any additional setup after loading the view.
         }
 
@@ -420,6 +423,8 @@ namespace CloudCoinMAC
             updateLog("Total Lost Coins : " + lostCoins.Count() + "");
             updateLog("Total Suspect Coins : " + suspectCoins.Count() + "");
             updateLog("Total Skipped Coins : " + existingCoins.Count() + "");
+            updateLog("Total Dangerous Coins : " + dangerousCoins.Count() + "");
+
 
             // Move Coins to their respective folders after sort
             FS.TransferCoins(passedCoins, FS.DetectedFolder, FS.BankFolder);
@@ -450,6 +455,10 @@ namespace CloudCoinMAC
  
         }
 
+        private void fix() {
+            Frack_Fixer fixer = new Frack_Fixer(FS,CloudCoinCore.Config.milliSecondsToTimeOut);
+            fixer.fixAll();
+        }
         private void ShowCoins()
         {
             var bankCoins = FS.LoadFolderCoins(FS.BankFolder);

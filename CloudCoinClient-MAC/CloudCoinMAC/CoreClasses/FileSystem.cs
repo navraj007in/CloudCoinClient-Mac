@@ -29,6 +29,7 @@ namespace CloudCoinClientMAC.CoreClasses
         public static IEnumerable<CloudCoin> bankCoins;
         public static IEnumerable<CloudCoin> lostCoins;
         public static IEnumerable<CloudCoin> predetectCoins;
+        public static IEnumerable<CloudCoin> dangerousCoins;
 
 
         public FileSystem(string RootPath)
@@ -141,6 +142,7 @@ namespace CloudCoinClientMAC.CoreClasses
             partialCoins = LoadFolderCoins(PartialFolder);
             //counterfeitCoins = LoadFolderCoins(CounterfeitFolder);
             predetectCoins = LoadFolderCoins(PreDetectFolder);
+            dangerousCoins = LoadFolderCoins(DangerousFolder);
 
         }
 
