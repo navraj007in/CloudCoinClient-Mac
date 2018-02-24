@@ -343,7 +343,7 @@ namespace CloudCoinMAC
                         CoinCount++;
                         updateLog("No. " + CoinCount + ". Coin Detected. S. No. : " + coin.sn + ". Pass Count : " + 
                                   coin.PassCount + ". Fail Count  : " + coin.FailCount + ". Result : " + 
-                                  coin.DetectionResult + "." + coin.pown + ".Pown Length-"+ coin.pown.Length);
+                                  coin.DetectionResult + "." + coin.pown + ".");
 
 
                         Debug.WriteLine("Coin Detected. S. No. - " + coin.sn + ". Pass Count : " + coin.PassCount + ". Fail Count  : " + coin.FailCount + ". Result - " + coin.DetectionResult);
@@ -451,6 +451,9 @@ namespace CloudCoinMAC
             Debug.WriteLine("Detection Completed in : " + ts.TotalMilliseconds / 1000);
             updateLog("Detection Completed in : " + ts.TotalMilliseconds / 1000);
             ShowCoins();
+            Task.Run(() => {
+                fix();
+            });
             FS.LoadFileSystem();
  
         }
