@@ -424,7 +424,10 @@ namespace CloudCoinMAC
             // Move Coins to their respective folders after sort
             FS.TransferCoins(passedCoins, FS.DetectedFolder, FS.BankFolder);
             FS.TransferCoins(frackedCoins, FS.DetectedFolder, FS.FrackedFolder);
-            FS.WriteCoin(failedCoins, FS.CounterfeitFolder, true);
+            if(failedCoins.Count > 0)
+            {
+                FS.WriteCoin(failedCoins, FS.CounterfeitFolder, true);
+            }
             FS.MoveCoins(lostCoins, FS.DetectedFolder, FS.LostFolder);
             FS.TransferCoins(suspectCoins, FS.DetectedFolder, FS.SuspectFolder);
             FS.MoveCoins(dangerousCoins, FS.DetectedFolder, FS.DangerousFolder);

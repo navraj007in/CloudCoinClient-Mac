@@ -70,5 +70,22 @@ namespace CloudCoinCore
             return data;
         }//end get HTML
 
+        /**
+        * Method ordinalIndexOf used to parse cloudcoins. Finds the nth number of a character within a string
+        *
+        * @param str The string to search in
+        * @param substr What to count in the string
+        * @param n The nth number
+        * @return The index of the nth number
+        */
+        public static int ordinalIndexOf(string str, string substr, int n)
+        {
+            int pos = str.IndexOf(substr);
+            while (--n > 0 && pos != -1)
+            {
+                pos = str.IndexOf(substr, (pos + 1));
+            }
+            return pos;
+        }//end ordinal Index of
     }
 }
