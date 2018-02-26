@@ -89,6 +89,8 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\android-chrome-256-256.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\android-chrome-512x512.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon1024.png" />
+    <ImageAsset Include="Assets.xcassets\Image.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Image.imageset\cloudcoin.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

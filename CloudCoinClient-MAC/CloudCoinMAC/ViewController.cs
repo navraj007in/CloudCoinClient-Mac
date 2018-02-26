@@ -667,9 +667,9 @@ namespace CloudCoinMAC
             updateLog("CloudCoin Consumers Edition" );
             updateLog("Version " + NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString() 
                       + "\nDated :" + DateTime.Now.ToShortDateString());
-            updateLog("Used to Authenticate ,Store,Payout CloudCoins");
-            updateLog("This Software is provided as is with all faults, " +
-                      "defects and errors, and without warranty of any kind.Free from the CloudCoin Consortium.\n");
+            updateLog("Used to Authenticate ,Store and Payout CloudCoins.");
+            updateLog("This Software is provided as is, with all faults, " +
+                      "defects and errors, and without warranty of any kind. Free from the CloudCoin Consortium.\n");
         }
 
         partial void ChangeWorkSpace(NSObject sender)
