@@ -118,6 +118,7 @@
     <Compile Include="CoreClasses\Exporter.cs" />
     <Compile Include="NumberOnlyFormattter.cs" />
     <Compile Include="WindowDelegate.cs" />
+    <Compile Include="SimpleLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />

@@ -51,7 +51,7 @@ namespace CloudCoinClientMAC.CoreClasses
             LostFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_LOST + Path.DirectorySeparatorChar;
             RequestsFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_REQUESTS + Path.DirectorySeparatorChar;
             DangerousFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_DANGEROUS + Path.DirectorySeparatorChar;
-
+            LogsFolder = RootPath + Path.DirectorySeparatorChar + Config.TAG_LOGS + Path.DirectorySeparatorChar;
         }
         public override bool CreateFolderStructure()
         {
@@ -96,6 +96,7 @@ namespace CloudCoinClientMAC.CoreClasses
                 Directory.CreateDirectory(PreDetectFolder);
                 Directory.CreateDirectory(RequestsFolder);
                 Directory.CreateDirectory(DangerousFolder);
+                Directory.CreateDirectory(LogsFolder);
             }
             catch (Exception e)
             {

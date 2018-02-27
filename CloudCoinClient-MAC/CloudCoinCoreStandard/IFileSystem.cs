@@ -31,7 +31,7 @@ namespace CloudCoinCore
         public string PreDetectFolder { get; set; }
         public string RequestsFolder { get; set; }
         public string DangerousFolder { get; set; }
-
+        public string LogsFolder { get; set; }
         //public abstract IFileSystem(string path);
 
         public abstract bool CreateFolderStructure();

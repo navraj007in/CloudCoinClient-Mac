@@ -34,5 +34,7 @@ namespace CloudCoinCore
         public static string[] allowedExtensions = new[] { ".stack", ".jpeg", ".chest", ".bank", ".jpg" };
 
         public static string TAG_DANGEROUS = "Dangerous";
+        public static string TAG_LOGS = "Logs";
+
     }
 }
