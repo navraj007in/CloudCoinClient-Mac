@@ -9,152 +9,168 @@ using System.CodeDom.Compiler;
 
 namespace CloudCoinMAC
 {
-    [Register ("ViewController")]
-    partial class ViewController
-    {
-        [Outlet]
-        AppKit.NSButton Export2DBarCodeClicked { get; set; }
+	[Register ("ViewController")]
+	partial class ViewController
+	{
+		[Outlet]
+		AppKit.NSButton cmdEcho { get; set; }
 
-        [Outlet]
-        AppKit.NSTextField lblBankTotal { get; set; }
+		[Outlet]
+		AppKit.NSButton cmdImport { get; set; }
 
-        [Outlet]
-        AppKit.NSTextField lblWorkspace { get; set; }
+		[Outlet]
+		AppKit.NSButton Export2DBarCodeClicked { get; set; }
 
-        [Outlet]
-        AppKit.NSTableView ProductTable { get; set; }
+		[Outlet]
+		AppKit.NSTextField lblBankTotal { get; set; }
 
-        [Outlet]
-        AppKit.NSLevelIndicatorCell raidaLevel { get; set; }
+		[Outlet]
+		AppKit.NSTextField lblWorkspace { get; set; }
 
-        [Outlet]
-        AppKit.NSButton rdbJpeg { get; set; }
+		[Outlet]
+		AppKit.NSTableView ProductTable { get; set; }
 
-        [Outlet]
-        AppKit.NSButton rdbStack { get; set; }
+		[Outlet]
+		AppKit.NSLevelIndicatorCell raidaLevel { get; set; }
 
-        [Outlet]
-        AppKit.NSTextField txtFives { get; set; }
+		[Outlet]
+		AppKit.NSButton rdbJpeg { get; set; }
 
-        [Outlet]
-        AppKit.NSTextField txtHundreds { get; set; }
+		[Outlet]
+		AppKit.NSButton rdbStack { get; set; }
 
-        [Outlet]
-        AppKit.NSTextView txtLogs { get; set; }
+		[Outlet]
+		AppKit.NSTextField txtFives { get; set; }
 
-        [Outlet]
-        AppKit.NSTextField txtOnes { get; set; }
+		[Outlet]
+		AppKit.NSTextField txtHundreds { get; set; }
 
-        [Outlet]
-        AppKit.NSTextField txtQtrs { get; set; }
+		[Outlet]
+		AppKit.NSTextView txtLogs { get; set; }
 
-        [Outlet]
-        AppKit.NSTextField txtTag { get; set; }
+		[Outlet]
+		AppKit.NSTextField txtOnes { get; set; }
 
-        [Outlet]
-        AppKit.NSTextField txtTwoFifties { get; set; }
+		[Outlet]
+		AppKit.NSTextField txtQtrs { get; set; }
 
-        [Action ("BackupClicked:")]
-        partial void BackupClicked (Foundation.NSObject sender);
+		[Outlet]
+		AppKit.NSTextField txtTag { get; set; }
 
-        [Action ("ChangeWorkSpace:")]
-        partial void ChangeWorkSpace (Foundation.NSObject sender);
+		[Outlet]
+		AppKit.NSTextField txtTwoFifties { get; set; }
 
-        [Action ("EchoClick:")]
-        partial void EchoClick (Foundation.NSObject sender);
+		[Action ("BackupClicked:")]
+		partial void BackupClicked (Foundation.NSObject sender);
 
-        [Action ("ExportClicked:")]
-        partial void ExportClicked (Foundation.NSObject sender);
+		[Action ("ChangeWorkSpace:")]
+		partial void ChangeWorkSpace (Foundation.NSObject sender);
 
-        [Action ("ExportQRClicked:")]
-        partial void ExportQRClicked (Foundation.NSObject sender);
+		[Action ("EchoClick:")]
+		partial void EchoClick (Foundation.NSObject sender);
 
-        [Action ("ImportClicked:")]
-        partial void ImportClicked (Foundation.NSObject sender);
+		[Action ("ExportClicked:")]
+		partial void ExportClicked (Foundation.NSObject sender);
 
-        [Action ("jPegClicked:")]
-        partial void jPegClicked (Foundation.NSObject sender);
+		[Action ("ExportQRClicked:")]
+		partial void ExportQRClicked (Foundation.NSObject sender);
 
-        [Action ("ListSerialsClicked:")]
-        partial void ListSerialsClicked (Foundation.NSObject sender);
+		[Action ("ImportClicked:")]
+		partial void ImportClicked (Foundation.NSObject sender);
 
-        [Action ("ShowFolderClicked:")]
-        partial void ShowFolderClicked (Foundation.NSObject sender);
+		[Action ("jPegClicked:")]
+		partial void jPegClicked (Foundation.NSObject sender);
 
-        [Action ("stackClicked:")]
-        partial void stackClicked (Foundation.NSObject sender);
-        
-        void ReleaseDesignerOutlets ()
-        {
-            if (Export2DBarCodeClicked != null) {
-                Export2DBarCodeClicked.Dispose ();
-                Export2DBarCodeClicked = null;
-            }
+		[Action ("ListSerialsClicked:")]
+		partial void ListSerialsClicked (Foundation.NSObject sender);
 
-            if (lblBankTotal != null) {
-                lblBankTotal.Dispose ();
-                lblBankTotal = null;
-            }
+		[Action ("ShowFolderClicked:")]
+		partial void ShowFolderClicked (Foundation.NSObject sender);
 
-            if (lblWorkspace != null) {
-                lblWorkspace.Dispose ();
-                lblWorkspace = null;
-            }
+		[Action ("stackClicked:")]
+		partial void stackClicked (Foundation.NSObject sender);
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (cmdImport != null) {
+				cmdImport.Dispose ();
+				cmdImport = null;
+			}
 
-            if (ProductTable != null) {
-                ProductTable.Dispose ();
-                ProductTable = null;
-            }
+			if (cmdEcho != null) {
+				cmdEcho.Dispose ();
+				cmdEcho = null;
+			}
 
-            if (raidaLevel != null) {
-                raidaLevel.Dispose ();
-                raidaLevel = null;
-            }
+			if (Export2DBarCodeClicked != null) {
+				Export2DBarCodeClicked.Dispose ();
+				Export2DBarCodeClicked = null;
+			}
 
-            if (rdbJpeg != null) {
-                rdbJpeg.Dispose ();
-                rdbJpeg = null;
-            }
+			if (lblBankTotal != null) {
+				lblBankTotal.Dispose ();
+				lblBankTotal = null;
+			}
 
-            if (rdbStack != null) {
-                rdbStack.Dispose ();
-                rdbStack = null;
-            }
+			if (lblWorkspace != null) {
+				lblWorkspace.Dispose ();
+				lblWorkspace = null;
+			}
 
-            if (txtLogs != null) {
-                txtLogs.Dispose ();
-                txtLogs = null;
-            }
+			if (ProductTable != null) {
+				ProductTable.Dispose ();
+				ProductTable = null;
+			}
 
-            if (txtTag != null) {
-                txtTag.Dispose ();
-                txtTag = null;
-            }
+			if (raidaLevel != null) {
+				raidaLevel.Dispose ();
+				raidaLevel = null;
+			}
 
-            if (txtOnes != null) {
-                txtOnes.Dispose ();
-                txtOnes = null;
-            }
+			if (rdbJpeg != null) {
+				rdbJpeg.Dispose ();
+				rdbJpeg = null;
+			}
 
-            if (txtFives != null) {
-                txtFives.Dispose ();
-                txtFives = null;
-            }
+			if (rdbStack != null) {
+				rdbStack.Dispose ();
+				rdbStack = null;
+			}
 
-            if (txtQtrs != null) {
-                txtQtrs.Dispose ();
-                txtQtrs = null;
-            }
+			if (txtFives != null) {
+				txtFives.Dispose ();
+				txtFives = null;
+			}
 
-            if (txtHundreds != null) {
-                txtHundreds.Dispose ();
-                txtHundreds = null;
-            }
+			if (txtHundreds != null) {
+				txtHundreds.Dispose ();
+				txtHundreds = null;
+			}
 
-            if (txtTwoFifties != null) {
-                txtTwoFifties.Dispose ();
-                txtTwoFifties = null;
-            }
-        }
-    }
+			if (txtLogs != null) {
+				txtLogs.Dispose ();
+				txtLogs = null;
+			}
+
+			if (txtOnes != null) {
+				txtOnes.Dispose ();
+				txtOnes = null;
+			}
+
+			if (txtQtrs != null) {
+				txtQtrs.Dispose ();
+				txtQtrs = null;
+			}
+
+			if (txtTag != null) {
+				txtTag.Dispose ();
+				txtTag = null;
+			}
+
+			if (txtTwoFifties != null) {
+				txtTwoFifties.Dispose ();
+				txtTwoFifties = null;
+			}
+		}
+	}
 }

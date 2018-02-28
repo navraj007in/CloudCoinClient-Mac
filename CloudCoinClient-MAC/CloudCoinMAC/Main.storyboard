@@ -1103,6 +1103,8 @@
                     </view>
                     <connections>
                         <outlet property="ProductTable" destination="fEa-Re-vjZ" id="ujy-ai-WWO"/>
+                        <outlet property="cmdEcho" destination="EjL-nt-hHz" id="yM4-W7-K6I"/>
+                        <outlet property="cmdImport" destination="suP-G4-86q" id="czS-js-3GF"/>
                         <outlet property="lblBankTotal" destination="9q6-tx-2JB" id="1vQ-1H-xnm"/>
                         <outlet property="lblWorkspace" destination="8aj-Zh-LXs" id="U0X-Zm-LVb"/>
                         <outlet property="raidaLevel" destination="yYd-uK-YeY" id="ybh-wP-tML"/>

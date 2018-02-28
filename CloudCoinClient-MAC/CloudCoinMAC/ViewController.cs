@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Web.Services;
 using AppKit;
 using CloudCoinClientMAC.CoreClasses;
 using CloudCoinCore;
@@ -221,6 +221,22 @@ namespace CloudCoinMAC
 
             return true;
         }
+
+        private void DisableUI() {
+            BeginInvokeOnMainThread(() =>
+            {
+                cmdEcho.Enabled = false;
+                cmdImport.Enabled = false;
+            });
+        }
+
+        private void EnableUI() {
+            BeginInvokeOnMainThread(() =>
+            {
+                cmdEcho.Enabled = true;
+                cmdImport.Enabled = true;
+            });
+        }
         partial void ImportClicked(NSObject sender)
         {
             var files = Directory
@@ -234,10 +250,13 @@ namespace CloudCoinMAC
                 if (!PickResult)
                     return;
             }
+            DisableUI();
             Detect();
+            //EnableUI();
         }
         public async void Echo()
         {
+            DisableUI();
             var echos = AppDelegate.raida.GetEchoTasks();
             updateLog("Starting Echo to RAIDA");
             updateLog("----------------------------------");
@@ -265,6 +284,7 @@ namespace CloudCoinMAC
             Debug.WriteLine("Ready Nodes-" + Convert.ToString(raida.ReadyCount));
             Debug.WriteLine("Not Ready Nodes-" + Convert.ToString(raida.NotReadyCount));
 
+            EnableUI();
             //txtProgress.AppendText("----------------------------------\n");
         }
 
@@ -451,6 +471,7 @@ namespace CloudCoinMAC
 
             Debug.WriteLine("Detection Completed in : " + ts.TotalMilliseconds / 1000);
             updateLog("Detection Completed in : " + ts.TotalMilliseconds / 1000);
+            EnableUI();
             ShowCoins();
             Task.Run(() => {
                 fix();
@@ -611,8 +632,10 @@ namespace CloudCoinMAC
 
                     if (num == 1000)
                     {
-                        String backupDir = dlg.Urls[0].Path;
+                        String backupDir = System.Web.HttpUtility.UrlEncode(dlg.Urls[0].Path);
+                        //backupDir = System.Web.HttpUtility.UrlEncode("/Users/ivanolsak/Desktop/CC tests/MAC 1.0.3/CloudCoin/Export");
                         NSSavePanel panel = new NSSavePanel();
+                        updateLog("List Serials Path Selected - "+ backupDir);
                         panel.DirectoryUrl = new NSUrl(backupDir);
                         String dirName = new DirectoryInfo(backupDir).Name;
 
