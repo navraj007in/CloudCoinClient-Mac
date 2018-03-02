@@ -27,6 +27,8 @@ namespace CloudCoinCore
         public static int MultiDetectLoad = 200;
         public static int NodeCount = 25;
         public static int PassCount = 16;
+        public static int MinimumReadyCount = 16;
+
         public static int NetworkNumber = 1;
 
         public enum Folder { Suspect, Counterfeit, Fracked, Bank, Trash };

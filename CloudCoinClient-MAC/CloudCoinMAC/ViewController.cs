@@ -244,6 +244,10 @@ namespace CloudCoinMAC
         }
         partial void ImportClicked(NSObject sender)
         {
+            if((raida.ReadyCount >= CloudCoinCore.Config.NodeCount) ) {
+                updateLog("Not Enough Nodes ready for detection. Quitting.");
+                return;
+            }
             var files = Directory
                .GetFiles(FS.ImportFolder)
                .Where(file => CloudCoinCore.Config.allowedExtensions.Any(file.ToLower().EndsWith))
