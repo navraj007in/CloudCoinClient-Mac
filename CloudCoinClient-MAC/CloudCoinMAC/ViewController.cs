@@ -18,7 +18,7 @@ using ZXing.QrCode;
 using System.DrawingCore;
 using System.DrawingCore.Imaging;
 using System.Collections.Generic;
-
+using CoreGraphics;
 namespace CloudCoinMAC
 {
     public partial class ViewController : NSViewController
@@ -76,9 +76,14 @@ namespace CloudCoinMAC
             Task.Run(() => { 
                 fix();
             });
+
+            
+            
+            
             // Do any additional setup after loading the view.
         }
 
+        
         
         partial void EchoClick(NSObject sender)
         {
@@ -254,6 +259,8 @@ namespace CloudCoinMAC
             Detect();
             //EnableUI();
         }
+
+
         public async void Echo()
         {
             DisableUI();
@@ -571,7 +578,7 @@ namespace CloudCoinMAC
             dlg.CanChooseDirectories = true;
             dlg.AllowsMultipleSelection = false;
             dlg.CanCreateDirectories = true;
-
+            dlg.DirectoryUrl = new NSUrl(FS.RootPath);
 
             if (dlg.RunModal() == 1)
             {
@@ -632,7 +639,7 @@ namespace CloudCoinMAC
 
                     if (num == 1000)
                     {
-                        String backupDir = System.Web.HttpUtility.UrlEncode(dlg.Urls[0].Path);
+                        String backupDir = (dlg.Urls[0].Path);
                         //backupDir = System.Web.HttpUtility.UrlEncode("/Users/ivanolsak/Desktop/CC tests/MAC 1.0.3/CloudCoin/Export");
                         NSSavePanel panel = new NSSavePanel();
                         updateLog("List Serials Path Selected - "+ backupDir);
@@ -714,7 +721,7 @@ namespace CloudCoinMAC
 
             if (dlg.RunModal() == 1)
             {
-                string msg = "Are you sure you want to change your CloudCoin Directory?";
+                string msg = "Are you sure you want to change your CloudCoin Directory? This will not move your coins to new folders.";
 
                 var alert = new NSAlert()
                 {
@@ -793,6 +800,7 @@ namespace CloudCoinMAC
             if (exp_1 + exp_5 + exp_25 + exp_100 + exp_250 == 0)
             {
                 Console.WriteLine("Can not export 0 coins");
+                updateLog("Can not export 0 coins");
                 return;
             }
 
@@ -801,6 +809,8 @@ namespace CloudCoinMAC
             if (((bankTotals[1] + frackedTotals[1]) + (bankTotals[2] + frackedTotals[2]) + (bankTotals[3] + frackedTotals[3]) + (bankTotals[4] + frackedTotals[4]) + (bankTotals[5] + frackedTotals[5]) + partialTotals[1] + partialTotals[2] + partialTotals[3] + partialTotals[4] + partialTotals[5]) > 1000)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
+                updateLog("Warning: You have more than 1000 Notes in your bank. Stack files should not have more than 1000 Notes in them.");
+                updateLog("Do not export stack files with more than 1000 notes. .");
                 Console.Out.WriteLine("Warning: You have more than 1000 Notes in your bank. Stack files should not have more than 1000 Notes in them.");
                 Console.Out.WriteLine("Do not export stack files with more than 1000 notes. .");
                 //updateLog("Warning: You have more than 1000 Notes in your bank. Stack files should not have more than 1000 Notes in them.");
@@ -828,6 +838,7 @@ namespace CloudCoinMAC
             }
             // end if type jpge or stack
             Console.Out.WriteLine("Exporting CloudCoins Completed.");
+            updateLog("Exporting CloudCoins Completed.");
 
             //NSWorkspace.SharedWorkspace.SelectFile(FS.ExportFolder,
               //                                     FS.ExportFolder);
