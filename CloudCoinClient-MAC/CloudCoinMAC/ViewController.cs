@@ -56,7 +56,7 @@ namespace CloudCoinMAC
         {
            
         }
-
+        public event EventHandler LogRecieved;
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -74,18 +74,28 @@ namespace CloudCoinMAC
             txtHundreds.Formatter = new NumberOnlyFormattter();
             txtQtrs.Formatter = new NumberOnlyFormattter();
             logger = new SimpleLogger(FS.LogsFolder + "logs" + DateTime.Now.ToString("yyyyMMdd").ToLower()+".txt",true);
+
+            raida.LoggerHandler += Raida_LogRecieved;
+
             Task.Run(() => { 
                 fix();
             });
 
-            
-            
+
+
             
             // Do any additional setup after loading the view.
         }
 
+
         
-        
+        void Raida_LogRecieved(object sender, EventArgs e)
+        {
+            ProgressChangedEventArgs pge = (ProgressChangedEventArgs)e;
+            //DetectEventArgs eargs = e;
+            updateLog(pge.MajorProgressMessage);
+            //Debug.WriteLine("Coin Detection Event Recieved - " + eargs.DetectedCoin.sn);
+        }
         partial void EchoClick(NSObject sender)
         {
             Echo();

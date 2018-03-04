@@ -192,12 +192,19 @@ namespace CloudCoinCore
         }//end detect coin
 
         public event EventHandler ProgressChanged;
+        public event EventHandler LoggerHandler;
+
         public int ReadyCount { get { return nodes.Where(x => x.RAIDANodeStatus == NodeStatus.Ready).Count(); } }
         public int NotReadyCount { get { return nodes.Where(x => x.RAIDANodeStatus == NodeStatus.NotReady).Count(); } }
 
         public virtual void OnProgressChanged(ProgressChangedEventArgs e)
         {
             ProgressChanged?.Invoke(this, e);
+        }
+
+        public void OnLogRecieved(ProgressChangedEventArgs e)
+        {
+            LoggerHandler?.Invoke(this, e);
         }
 
         public event EventHandler CoinDetected;

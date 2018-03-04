@@ -116,7 +116,12 @@ namespace CloudCoinCore
             continueExecution = true;
             int[] results = new int[3];
             String[] frackedFileNames = new DirectoryInfo(this.fileUtils.FrackedFolder).GetFiles().Select(o => o.Name).ToArray();
-            CloudCoinCore.CloudCoin frackedCC;
+            CloudCoin frackedCC;
+
+            ProgressChangedEventArgs pge = new ProgressChangedEventArgs();
+            pge.MajorProgressMessage = "Starting Frack Fixing";
+            raida.OnLogRecieved(pge);
+
             //CoinUtils cu = new CoinUtils(frackedCC);
             if (frackedFileNames.Length < 0)
             {
@@ -134,6 +139,9 @@ namespace CloudCoinCore
                     break;
                 }
                 Console.WriteLine("UnFracking coin " + (i + 1) + " of " + frackedFileNames.Length);
+                //ProgressChangedEventArgs pge = new ProgressChangedEventArgs();
+                pge.MajorProgressMessage = "UnFracking coin " + (i + 1) + " of " + frackedFileNames.Length;
+                raida.OnLogRecieved(pge);
                 //CoreLogger.Log("UnFracking coin " + (i + 1) + " of " + frackedFileNames.Length);
                 try
                 {
@@ -157,6 +165,9 @@ namespace CloudCoinCore
                             this.fileUtils.overWrite(this.fileUtils.BankFolder, fixedCC.cc);
                             this.deleteCoin(this.fileUtils.FrackedFolder + frackedFileNames[i]);
                             Console.WriteLine("CloudCoin was moved to Bank.");
+                            pge.MajorProgressMessage = "CloudCoin was moved to Bank.";
+                            raida.OnLogRecieved(pge);
+                
                             //CoreLogger.Log("CloudCoin was moved to Bank.");
                             break;
                         case "counterfeit":
@@ -164,6 +175,9 @@ namespace CloudCoinCore
                             this.fileUtils.overWrite(this.fileUtils.CounterfeitFolder, fixedCC.cc);
                             this.deleteCoin(this.fileUtils.FrackedFolder + frackedFileNames[i]);
                             Console.WriteLine("CloudCoin was moved to Trash.");
+                            pge.MajorProgressMessage = "CloudCoin was moved to Trash.";
+                            raida.OnLogRecieved(pge);
+                
                             //CoreLogger.Log("CloudCoin was moved to Trash.");
                             break;
                         default://Move back to fracked folder
@@ -171,11 +185,17 @@ namespace CloudCoinCore
                             this.deleteCoin(this.fileUtils.FrackedFolder + frackedFileNames[i]);
                             this.fileUtils.overWrite(this.fileUtils.FrackedFolder, fixedCC.cc);
                             Console.WriteLine("CloudCoin was moved back to Fraked folder.");
+                            pge.MajorProgressMessage = "CloudCoin was moved back to Fraked folder.";
+                            raida.OnLogRecieved(pge);
+                
                             //CoreLogger.Log("CloudCoin was moved back to Fraked folder.");
                             break;
                     }
                     // end switch on the place the coin will go 
                     Console.WriteLine("...................................");
+                    pge.MajorProgressMessage = "...................................";
+                    raida.OnLogRecieved(pge);
+                
                     Console.WriteLine("");
                 }
                 catch (FileNotFoundException ex)
@@ -224,7 +244,7 @@ namespace CloudCoinCore
         public CoinUtils fixCoin(CloudCoin brokeCoin)
         {
             CoinUtils cu = new CoinUtils(brokeCoin);
-
+            ProgressChangedEventArgs pge = new ProgressChangedEventArgs();
             /*0. RESET TICKETS IN RAIDA STATUS TO EMPTY*/
 
             //RAIDA_Status.resetTickets();
@@ -259,6 +279,8 @@ namespace CloudCoinCore
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Out.WriteLine("");
                     Console.WriteLine("Attempting to fix RAIDA " + raida_ID);
+                    pge.MajorProgressMessage = "Attempting to fix RAIDA " + raida_ID;
+                    raida.OnLogRecieved(pge);
                    // CoreLogger.Log("Attempting to fix RAIDA " + raida_ID);
                     Console.Out.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.White;
@@ -275,6 +297,8 @@ namespace CloudCoinCore
                             return cu;
                         }
                         Console.WriteLine(" Using corner " + corner);
+                        pge.MajorProgressMessage = " Using corner " + corner;
+                        raida.OnLogRecieved(pge);
                      //   CoreLogger.Log(" Using corner " + corner);
                         fix_result = fixOneGuidCorner(raida_ID, brokeCoin, corner, fixer.currentTriad);
                         // Console.WriteLine(" fix_result: " + fix_result + " for corner " + corner);
@@ -309,6 +333,8 @@ namespace CloudCoinCore
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Out.WriteLine("");
                     Console.WriteLine("Attempting to fix RAIDA " + raida_ID);
+                    pge.MajorProgressMessage = "Attempting to fix RAIDA " + raida_ID;
+                    raida.OnLogRecieved(pge);
                   //  CoreLogger.Log("Attempting to fix RAIDA " + raida_ID);
                     Console.Out.WriteLine("");
                     Console.ForegroundColor = ConsoleColor.White;
@@ -320,6 +346,8 @@ namespace CloudCoinCore
                     while (!fixer.finished)
                     {
                         Console.WriteLine(" Using corner " + corner);
+                        pge.MajorProgressMessage = " Using corner " + corner;
+                        raida.OnLogRecieved(pge);
                         //CoreLogger.Log(" Using corner " + corner);
                         fix_result = fixOneGuidCorner(raida_ID, brokeCoin, corner, fixer.currentTriad);
                         // Console.WriteLine(" fix_result: " + fix_result + " for corner " + corner);
@@ -342,6 +370,8 @@ namespace CloudCoinCore
             DateTime after = DateTime.Now;
             TimeSpan ts = after.Subtract(before);
             Console.WriteLine("Time spent fixing RAIDA in milliseconds: " + ts.Milliseconds);
+            pge.MajorProgressMessage = "Time spent fixing RAIDA in milliseconds: " + ts.Milliseconds;
+            raida.OnLogRecieved(pge);
             //CoreLogger.Log("Time spent fixing RAIDA in milliseconds: " + ts.Milliseconds);
 
             cu.calculateHP();//how many fails did it get
