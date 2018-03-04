@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 
 namespace CloudCoinCore
 {
@@ -13,7 +14,8 @@ namespace CloudCoinCore
         private int totalValueToFractured;
         private int totalValueToCounterfeit;
         private RAIDA raida;
-        
+        public bool continueExecution = true;
+        public bool IsFixing = false;
 
         /* CONSTRUCTORS */
         public Frack_Fixer(IFileSystem fileUtils, int timeout)
@@ -52,6 +54,11 @@ namespace CloudCoinCore
                     {
                         /*5.T YES, so REQUEST FIX*/
                         //DetectionAgent da = new DetectionAgent(raida_ID, 5000);
+                        if (!continueExecution)
+                        {
+                            Debug.WriteLine("Aborting Fix ");
+                            return "Aborting for new operation";
+                        }
                         Response fixResponse = RAIDA.GetInstance().nodes[raida_ID].Fix(trustedTriad, raida.nodes[trustedTriad[0]].ticket, raida.nodes[trustedTriad[1]].ticket, raida.nodes[trustedTriad[2]].ticket, cc.an[raida_ID]).Result;
                         /*6. DID THE FIX WORK?*/
                         if (fixResponse.success)
@@ -105,6 +112,8 @@ namespace CloudCoinCore
         /* PUBLIC METHODS */
         public int[] fixAll()
         {
+            IsFixing = true;
+            continueExecution = true;
             int[] results = new int[3];
             String[] frackedFileNames = new DirectoryInfo(this.fileUtils.FrackedFolder).GetFiles().Select(o => o.Name).ToArray();
             CloudCoinCore.CloudCoin frackedCC;
@@ -120,6 +129,10 @@ namespace CloudCoinCore
 
             for (int i = 0; i < frackedFileNames.Length; i++)
             {
+                if (!continueExecution){
+                    Debug.WriteLine("Aborting Fix 1");
+                    break;
+                }
                 Console.WriteLine("UnFracking coin " + (i + 1) + " of " + frackedFileNames.Length);
                 //CoreLogger.Log("UnFracking coin " + (i + 1) + " of " + frackedFileNames.Length);
                 try
@@ -131,7 +144,11 @@ namespace CloudCoinCore
                     cu.consoleReport();
 
                     CoinUtils fixedCC = fixCoin(frackedCC); // Will attempt to unfrack the coin. 
-
+                    if (!continueExecution)
+                    {
+                        Debug.WriteLine("Aborting Fix 2");
+                        break;
+                    }
                     cu.consoleReport();
                     switch (fixedCC.getFolder().ToLower() )
                     {
@@ -180,6 +197,8 @@ namespace CloudCoinCore
             results[0] = this.totalValueToBank;
             results[1] = this.totalValueToCounterfeit; // System.out.println("Counterfeit and Moved to trash: "+totalValueToCounterfeit);
             results[2] = this.totalValueToFractured; // System.out.println("Fracked and Moved to Fracked: "+ totalValueToFractured);
+            IsFixing = false;
+            continueExecution = true;
             return results;
         }// end fix all
 
@@ -228,6 +247,10 @@ namespace CloudCoinCore
             // For every guid, check to see if it is fractured
             for (int raida_ID = 0; raida_ID < 25; raida_ID++)
             {
+                if(!continueExecution) {
+                    Debug.Write("Stopping Execution");
+                    return cu;
+                }
                 //  Console.WriteLine("Past Status for " + raida_ID + ", " + brokeCoin.pastStatus[raida_ID]);
 
                 if ( cu.getPastStatus(raida_ID).ToLower() != "pass")//will try to fix everything that is not perfect pass.
@@ -246,6 +269,11 @@ namespace CloudCoinCore
                     corner = 1;
                     while (!fixer.finished)
                     {
+                        if (!continueExecution)
+                        {
+                            Debug.Write("Stopping Execution");
+                            return cu;
+                        }
                         Console.WriteLine(" Using corner " + corner);
                      //   CoreLogger.Log(" Using corner " + corner);
                         fix_result = fixOneGuidCorner(raida_ID, brokeCoin, corner, fixer.currentTriad);
@@ -270,6 +298,10 @@ namespace CloudCoinCore
             for (int raida_ID = 24; raida_ID > 0; raida_ID--)
             {
                 //  Console.WriteLine("Past Status for " + raida_ID + ", " + brokeCoin.pastStatus[raida_ID]);
+                if (!continueExecution)
+                {
+                    return cu;
+                }
 
                 if (cu.getPastStatus(raida_ID).ToLower() != "pass")//will try to fix everything that is not perfect pass.
                 {

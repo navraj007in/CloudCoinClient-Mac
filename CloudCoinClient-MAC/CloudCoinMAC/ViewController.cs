@@ -44,7 +44,7 @@ namespace CloudCoinMAC
         public static string exportTag = "";
         SimpleLogger logger = new SimpleLogger();
         ProductTableDataSource DataSource;
-
+        Frack_Fixer fixer ;
         //int onesTotal = 0;
         //int fivesTotal = 0;
         //int qtrsTotal = 0;
@@ -60,6 +60,7 @@ namespace CloudCoinMAC
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            fixer = new Frack_Fixer(FS, CloudCoinCore.Config.milliSecondsToTimeOut);
             Title = "CloudCoin CE - 1.0";
             lblWorkspace.StringValue = "Workspace : "+FS.RootPath;
             printWelcome();
@@ -89,6 +90,7 @@ namespace CloudCoinMAC
         {
             Echo();
             ShowCoins();
+
         }
         
         public void updateLog(string logLine)
@@ -244,10 +246,16 @@ namespace CloudCoinMAC
         }
         partial void ImportClicked(NSObject sender)
         {
-            if((raida.ReadyCount >= CloudCoinCore.Config.NodeCount) ) {
+            if(!(raida.ReadyCount >= CloudCoinCore.Config.MinimumReadyCount) ) {
                 updateLog("Not Enough Nodes ready for detection. Quitting.");
                 return;
             }
+            fixer.continueExecution = false;
+            if (fixer.IsFixing){
+                updateLog("Stopping Fix");
+                Debug.WriteLine("Stopping Fix");
+            }
+            System.Threading.SpinWait.SpinUntil(() => !fixer.IsFixing);
             var files = Directory
                .GetFiles(FS.ImportFolder)
                .Where(file => CloudCoinCore.Config.allowedExtensions.Any(file.ToLower().EndsWith))
@@ -451,7 +459,7 @@ namespace CloudCoinMAC
             Debug.WriteLine("Total Failed Coins - " + failedCoins.Count());
             updateLog("Coin Detection finished.");
             updateLog("Total Passed Coins : " + (passedCoins.Count() + frackedCoins.Count()) + "");
-            updateLog("Total Failed Coins : " + failedCoins.Count() + "");
+            updateLog("Total Counterfeit Coins : " + failedCoins.Count() + "");
             updateLog("Total Lost Coins : " + lostCoins.Count() + "");
             updateLog("Total Suspect Coins : " + suspectCoins.Count() + "");
             updateLog("Total Skipped Coins : " + existingCoins.Count() + "");
@@ -492,8 +500,11 @@ namespace CloudCoinMAC
         }
 
         private void fix() {
-            Frack_Fixer fixer = new Frack_Fixer(FS,CloudCoinCore.Config.milliSecondsToTimeOut);
+            //Frack_Fixer fixer = new Frack_Fixer(FS,CloudCoinCore.Config.milliSecondsToTimeOut);
+            fixer.continueExecution = true;
+            fixer.IsFixing = true;
             fixer.fixAll();
+            fixer.IsFixing = false;
         }
         private void ShowCoins()
         {
@@ -546,71 +557,82 @@ namespace CloudCoinMAC
 
         partial void BackupClicked(NSObject sender)
         {
-            var bankCoins = FS.LoadFolderCoins(FS.BankFolder);
-            var frackedCoins = FS.LoadFolderCoins(FS.FrackedFolder);
-            var partialCoins = FS.LoadFolderCoins(FS.PartialFolder);
+            try{
+                var bankCoins = FS.LoadFolderCoins(FS.BankFolder);
+                var frackedCoins = FS.LoadFolderCoins(FS.FrackedFolder);
+                var partialCoins = FS.LoadFolderCoins(FS.PartialFolder);
 
-            // Add them all up in a single list for backup
+                // Add them all up in a single list for backup
 
-            bankCoins.AddRange(frackedCoins);
-            bankCoins.AddRange(partialCoins);
+                bankCoins.AddRange(frackedCoins);
+                bankCoins.AddRange(partialCoins);
 
-            String[] bankFileNames = new DirectoryInfo(FS.BankFolder).
-                                                                                           GetFiles("*.stack").
-                                                                                           Select(o => o.Name).ToArray();//Get all files in suspect folder
-            if (bankCoins.Count == 0)
-            {
-                string msg = "No Coins found in bank for backup.";
-
-                var alert = new NSAlert()
+                String[] bankFileNames = new DirectoryInfo(FS.BankFolder).
+                                                                                               GetFiles("*.stack").
+                                                                                               Select(o => o.Name).ToArray();//Get all files in suspect folder
+                if (bankCoins.Count == 0)
                 {
-                    AlertStyle = NSAlertStyle.Warning,
-                    InformativeText = msg,
-                    MessageText = "Backup",
-                };
-                alert.AddButton("OK");
-                nint num = alert.RunModal();
-                return;
-            }
-            Banker bank = new Banker(FS);
-            int[] bankTotals = bank.countCoins(FS.BankFolder);
-            int[] frackedTotals = bank.countCoins(FS.FrackedFolder);
-            int[] partialTotals = bank.countCoins(FS.PartialFolder);
+                    string msg = "No Coins found in bank for backup.";
 
-            var dlg = NSOpenPanel.OpenPanel;
-            dlg.CanChooseFiles = false;
-            dlg.CanChooseDirectories = true;
-            dlg.AllowsMultipleSelection = false;
-            dlg.CanCreateDirectories = true;
-            dlg.DirectoryUrl = new NSUrl(FS.RootPath);
+                    var alert = new NSAlert()
+                    {
+                        AlertStyle = NSAlertStyle.Warning,
+                        InformativeText = msg,
+                        MessageText = "Backup",
+                    };
+                    alert.AddButton("OK");
+                    nint num = alert.RunModal();
+                    return;
+                }
+                Banker bank = new Banker(FS);
+                int[] bankTotals = bank.countCoins(FS.BankFolder);
+                int[] frackedTotals = bank.countCoins(FS.FrackedFolder);
+                int[] partialTotals = bank.countCoins(FS.PartialFolder);
 
-            if (dlg.RunModal() == 1)
-            {
-                string msg = "Are you sure you want to backup your CloudCoin Directory?";
+                var dlg = NSOpenPanel.OpenPanel;
+                dlg.CanChooseFiles = false;
+                dlg.CanChooseDirectories = true;
+                dlg.AllowsMultipleSelection = false;
+                dlg.CanCreateDirectories = true;
+                
+                //dlg.DirectoryUrl = new NSUrl(FS.RootPath,UriFormat.UriEscaped.ToString());
 
-                var alert = new NSAlert()
+                var uri = new Uri(FS.RootPath);
+                var nsurl = new NSUrl(uri.GetComponents(UriComponents.HttpRequestUrl, UriFormat.UriEscaped));
+                dlg.DirectoryUrl = nsurl;
+
+                if (dlg.RunModal() == 1)
                 {
-                    AlertStyle = NSAlertStyle.Warning,
-                    InformativeText = msg,
-                    MessageText = "Backup CloudCoins",
-                };
-                alert.AddButton("OK");
-                alert.AddButton("Cancel");
+                    string msg = "Are you sure you want to backup your CloudCoin Directory?";
 
-                nint num = alert.RunModal();
+                    var alert = new NSAlert()
+                    {
+                        AlertStyle = NSAlertStyle.Warning,
+                        InformativeText = msg,
+                        MessageText = "Backup CloudCoins",
+                    };
+                    alert.AddButton("OK");
+                    alert.AddButton("Cancel");
 
-                if (num == 1000)
-                {
-                    FS.WriteCoinsToFile(bankCoins, dlg.Urls[0].Path + System.IO.Path.DirectorySeparatorChar + 
-                                        "backup" + DateTime.Now.ToString("yyyyMMddHHmmss").ToLower());
-                 
-                    //export(dlg.Urls[0].Path);
-                    String backupDir = dlg.Urls[0].Path;
-                    NSWorkspace.SharedWorkspace.SelectFile(backupDir,
-                                                           backupDir);
+                    nint num = alert.RunModal();
+
+                    if (num == 1000)
+                    {
+                        FS.WriteCoinsToFile(bankCoins, dlg.Urls[0].Path + System.IO.Path.DirectorySeparatorChar +
+                                            "backup" + DateTime.Now.ToString("yyyyMMddHHmmss").ToLower());
+
+                        //export(dlg.Urls[0].Path);
+                        String backupDir = dlg.Urls[0].Path;
+                        NSWorkspace.SharedWorkspace.SelectFile(backupDir,
+                                                               backupDir);
+
+                    }
 
                 }
 
+            }
+            catch(Exception e){
+                logger.Error(e.Message);
             }
            
            
@@ -647,7 +669,8 @@ namespace CloudCoinMAC
                         //backupDir = System.Web.HttpUtility.UrlEncode("/Users/ivanolsak/Desktop/CC tests/MAC 1.0.3/CloudCoin/Export");
                         NSSavePanel panel = new NSSavePanel();
                         updateLog("List Serials Path Selected - "+ backupDir);
-                        panel.DirectoryUrl = new NSUrl(backupDir);
+                        //panel.DirectoryUrl = new NSUrl(backupDir);
+                        panel.DirectoryUrl = dlg.Urls[0];
                         String dirName = new DirectoryInfo(backupDir).Name;
 
                         panel.NameFieldStringValue = "CoinList" + DateTime.Now.ToString("yyyy.MM.dd").ToLower() + "." + dirName + ".csv";
@@ -725,7 +748,7 @@ namespace CloudCoinMAC
 
             if (dlg.RunModal() == 1)
             {
-                string msg = "Are you sure you want to change your CloudCoin Directory? This will not move your coins to new folders.";
+                string msg = "Are you sure you want to change your CloudCoin Directory? This will not move your coins to new folders!";
 
                 var alert = new NSAlert()
                 {
@@ -778,6 +801,14 @@ namespace CloudCoinMAC
 
         public void export()
         {
+            fixer.continueExecution = false;
+            if (fixer.IsFixing)
+            {
+                updateLog("Stopping Fix");
+                Debug.WriteLine("Stopping Fix");
+            }
+
+            System.Threading.SpinWait.SpinUntil(() => !fixer.IsFixing);
             exportJpegStack = 2;
             if (rdbStack.State == NSCellStateValue.On)
             {
