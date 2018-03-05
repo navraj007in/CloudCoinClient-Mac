@@ -30,7 +30,7 @@ namespace CloudCoinCore
 
         public string fixOneGuidCorner(int raida_ID, CloudCoin cc, int corner, int[] trustedTriad)
         {
-            RAIDA raida = RAIDA.GetInstance();
+            //RAIDA raida = RAIDA.GetInstance();
             CoinUtils cu = new CoinUtils(cc);
 
             /*1. WILL THE BROKEN RAIDA FIX? check to see if it has problems echo, detect, or fix. */
@@ -138,7 +138,7 @@ namespace CloudCoinCore
                     Debug.WriteLine("Aborting Fix 1");
                     break;
                 }
-                Console.WriteLine("UnFracking coin " + (i + 1) + " of " + frackedFileNames.Length);
+                Console.WriteLine("Unfracking coin " + (i + 1) + " of " + frackedFileNames.Length);
                 //ProgressChangedEventArgs pge = new ProgressChangedEventArgs();
                 pge.MajorProgressMessage = "UnFracking coin " + (i + 1) + " of " + frackedFileNames.Length;
                 raida.OnLogRecieved(pge);
@@ -184,8 +184,8 @@ namespace CloudCoinCore
                             this.totalValueToFractured++;
                             this.deleteCoin(this.fileUtils.FrackedFolder + frackedFileNames[i]);
                             this.fileUtils.overWrite(this.fileUtils.FrackedFolder, fixedCC.cc);
-                            Console.WriteLine("CloudCoin was moved back to Fraked folder.");
-                            pge.MajorProgressMessage = "CloudCoin was moved back to Fraked folder.";
+                            Console.WriteLine("CloudCoin was moved back to Fracked folder.");
+                            pge.MajorProgressMessage = "CloudCoin was moved back to Fracked folder.";
                             raida.OnLogRecieved(pge);
                 
                             //CoreLogger.Log("CloudCoin was moved back to Fraked folder.");
@@ -219,6 +219,8 @@ namespace CloudCoinCore
             results[2] = this.totalValueToFractured; // System.out.println("Fracked and Moved to Fracked: "+ totalValueToFractured);
             IsFixing = false;
             continueExecution = true;
+            pge.MajorProgressMessage = "Coins Fixing completed";
+            raida.OnLogRecieved(pge);
             return results;
         }// end fix all
 

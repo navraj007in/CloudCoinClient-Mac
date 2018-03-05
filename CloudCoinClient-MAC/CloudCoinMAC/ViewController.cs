@@ -67,7 +67,7 @@ namespace CloudCoinMAC
             ShowCoins();
             raidaLevel.MaxValue = raida.nodes.Count();
             Echo();
-
+            
             txtOnes.Formatter = new NumberOnlyFormattter();
             txtFives.Formatter = new NumberOnlyFormattter();
             txtQtrs.Formatter = new NumberOnlyFormattter();
@@ -319,7 +319,8 @@ namespace CloudCoinMAC
 
         public async void Detect()
         {
-
+            updateLog("Starting CloudCoin Import. Please do not close the program till it is finished." +
+                      "Otherwise it may result in loss of CloudCoins.");
             updateLog("Starting Multi Detect..");
             TimeSpan ts = new TimeSpan();
             DateTime before = DateTime.Now;
@@ -546,23 +547,27 @@ namespace CloudCoinMAC
         private void BindTable() 
         {
             DataSource = new ProductTableDataSource();
-            DataSource.Products.Add(new Product("1s", onesCount.ToString(), (onesCount.ToString())));
-            DataSource.Products.Add(new Product("5s", fivesCount.ToString(),(fivesCount *5).ToString()));
-            DataSource.Products.Add(new Product("25s", qtrCount.ToString(), (qtrCount*25).ToString()));
-            DataSource.Products.Add(new Product("100s", hundredsCount.ToString(), (hundredsCount*100).ToString()));
-            DataSource.Products.Add(new Product("250s", twoFiftiesCount.ToString(), (twoFiftiesCount*250).ToString()));
+            DataSource.Products.Add(new Product("1s", onesCount.ToString(), (onesCount.ToString() + " CC")));
+            DataSource.Products.Add(new Product("5s", fivesCount.ToString(),(fivesCount *5).ToString() + " CC"));
+            DataSource.Products.Add(new Product("25s", qtrCount.ToString(), (qtrCount*25).ToString() + " CC"));
+            DataSource.Products.Add(new Product("100s", hundredsCount.ToString(), (hundredsCount*100).ToString() + " CC"));
+            DataSource.Products.Add(new Product("250s", twoFiftiesCount.ToString(), (twoFiftiesCount*250).ToString() + " CC"));
+            int total = onesCount + fivesCount + qtrCount + hundredsCount + twoFiftiesCount;
+            int totalAmount = onesCount + (fivesCount * 5) + (qtrCount * 25) + (hundredsCount * 100) + (twoFiftiesCount * 250);
+
+            DataSource.Products.Add(new Product("Bank Total", total.ToString(), totalAmount.ToString() + " CC"));
 
             // Populate the Product Table
             ProductTable.DataSource = DataSource;
             ProductTable.Delegate = new ProductTableDelegate(DataSource);
 
-            int total = 0;
+            //total = 0;
 
-            for (int i = 0; i < multiplier.Length;i++) {
+          /*  for (int i = 0; i < multiplier.Length;i++) {
                 total += Convert.ToInt32(DataSource.Products[i].NotesValue);
             }
-
-            lblBankTotal.IntValue = total;
+*/
+            lblBankTotal.IntValue = totalAmount;
         }
 
         partial void BackupClicked(NSObject sender)
@@ -734,7 +739,28 @@ namespace CloudCoinMAC
         }
         partial void ExportClicked(NSObject sender)
         {
-            export();
+            exportJpegStack = 2;
+            if (rdbStack.State == NSCellStateValue.On)
+            {
+                exportJpegStack = 2;
+            }
+            else
+                exportJpegStack = 1;
+            string tag = txtTag.StringValue;
+            int exp_1 = Convert.ToInt16(txtOnes.IntValue);
+            int exp_5 = Convert.ToInt16(txtFives.IntValue);
+            int exp_25 = Convert.ToInt16(txtQtrs.IntValue);
+            int exp_100 = Convert.ToInt16(txtHundreds.IntValue);
+            int exp_250 = Convert.ToInt16(txtTwoFifties.IntValue);
+
+            Task.Run(() => {
+                Export(tag,exp_1,
+                       exp_5,
+                       exp_25,
+                       exp_100,
+                       exp_250);
+            });
+
         }
 
         private void printWelcome()
@@ -809,7 +835,7 @@ namespace CloudCoinMAC
             }
         }
 
-        public void export()
+        public void Export(string tag,int exp_1,int exp_5,int exp_25,int exp_100,int exp_250)
         {
             fixer.continueExecution = false;
             if (fixer.IsFixing)
@@ -819,14 +845,8 @@ namespace CloudCoinMAC
             }
 
             System.Threading.SpinWait.SpinUntil(() => !fixer.IsFixing);
-            exportJpegStack = 2;
-            if (rdbStack.State == NSCellStateValue.On)
-            {
-                exportJpegStack = 2;
-            }
-            else
-                exportJpegStack = 1;
-            
+           
+            //updateLog("Exporting XYZ CloudCoins from Bank. Do not close CloudCoin CE program until it is finished!");
             Banker bank = new Banker(FS);
             int[] bankTotals = bank.countCoins(FS.BankFolder);
             int[] frackedTotals = bank.countCoins(FS.FrackedFolder);
@@ -834,12 +854,16 @@ namespace CloudCoinMAC
 
             //updateLog("  Your Bank Inventory:");
             int grandTotal = (bankTotals[0] + frackedTotals[0] + partialTotals[0]);
+
+            updateLog("Exporting "+ grandTotal +" CloudCoins from Bank. Do not close CloudCoin CE program until it is finished!");
+
+
             // state how many 1, 5, 25, 100 and 250
-            int exp_1 = Convert.ToInt16(txtOnes.IntValue);
-            int exp_5 = Convert.ToInt16(txtFives.IntValue);
-            int exp_25 = Convert.ToInt16(txtQtrs.IntValue);
-            int exp_100 = Convert.ToInt16(txtHundreds.IntValue);
-            int exp_250 = Convert.ToInt16(txtTwoFifties.IntValue);
+            //int exp_1 = Convert.ToInt16(txtOnes.IntValue);
+            //int exp_5 = Convert.ToInt16(txtFives.IntValue);
+            //int exp_25 = Convert.ToInt16(txtQtrs.IntValue);
+            //int exp_100 = Convert.ToInt16(txtHundreds.IntValue);
+            //int exp_250 = Convert.ToInt16(txtTwoFifties.IntValue);
             //Warn if too many coins
 
             if (exp_1 + exp_5 + exp_25 + exp_100 + exp_250 == 0)
@@ -870,7 +894,7 @@ namespace CloudCoinMAC
             //exporter.OnUpdateStatus +=  ;
             file_type = exportJpegStack;
 
-            String tag = txtTag.StringValue;// reader.readString();
+            //String tag = txtTag.StringValue;// reader.readString();
                                             //Console.Out.WriteLine(("Exporting to:" + exportFolder));
 
             if (file_type == 1)
@@ -889,7 +913,11 @@ namespace CloudCoinMAC
               //                                     FS.ExportFolder);
             NSWorkspace.SharedWorkspace.OpenFile(FS.ExportFolder);
 
-            ShowCoins();
+            BeginInvokeOnMainThread(() =>
+            {
+                ShowCoins();
+            });
+           
         }// end export One
         public override NSObject RepresentedObject
         {

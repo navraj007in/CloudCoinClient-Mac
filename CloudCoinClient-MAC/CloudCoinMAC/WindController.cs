@@ -4,6 +4,7 @@ using System;
 
 using Foundation;
 using AppKit;
+using CoreGraphics;
 
 namespace CloudCoinMAC
 {
@@ -17,6 +18,10 @@ namespace CloudCoinMAC
         {
             base.WindowDidLoad();
 
+            CGSize size = new CGSize();
+            size.Width = 869;
+            size.Height = 451;
+            this.Window.MinSize = size;
             //this.Window.TitlebarAppearsTransparent = true;
             //this.Window.MovableByWindowBackground = true;
 

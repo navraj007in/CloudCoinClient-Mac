@@ -40,6 +40,7 @@ namespace CloudCoinMAC
                 view.BackgroundColor = NSColor.Clear;
                 view.Bordered = false;
                 view.Selectable = false;
+                view.Alignment = NSTextAlignment.Center;
                 if(tableColumn.Title == "Export")
                     view.Editable = true;
                 view.Tag = row;

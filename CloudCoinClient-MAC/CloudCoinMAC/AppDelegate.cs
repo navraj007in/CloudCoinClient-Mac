@@ -67,6 +67,7 @@ namespace CloudCoinMAC
             FS.ClearCoins(FS.DetectedFolder);
 
             FS.LoadFileSystem();
+            
         }
 
         public override void DidFinishLaunching(NSNotification notification)

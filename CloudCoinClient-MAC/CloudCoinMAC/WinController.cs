@@ -1,5 +1,6 @@
 ﻿using System;
 using AppKit;
+using CoreGraphics;
 
 namespace CloudCoinMAC
 {
@@ -17,6 +18,10 @@ namespace CloudCoinMAC
             this.Window.MovableByWindowBackground = true;
 
             this.Window.BackgroundColor = NSColor.Blue;
+            CGSize size = new CGSize();
+            size.Width = 869;
+            size.Height = 451;
+            this.Window.MinSize = size;
         }
     }
 }

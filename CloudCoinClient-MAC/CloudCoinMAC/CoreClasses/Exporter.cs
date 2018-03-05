@@ -610,8 +610,8 @@ namespace CloudCoinCore
             return jsonExported;
         }//end write json to file
 
-
-
+        ProgressChangedEventArgs pge = new ProgressChangedEventArgs();
+        RAIDA raida = RAIDA.GetInstance();
         /* PRIVATE METHODS */
         private void jpegWriteOne(String path, String tag, String bankFileName, String frackedFileName, String partialFileName)
         {
@@ -621,7 +621,11 @@ namespace CloudCoinCore
                 if (this.fileSystem.writeJpeg(jpgCoin, tag))//If the jpeg writes successfully 
                 {
                     File.Delete(bankFileName);//Delete the files if they have been written to
+                    pge.MajorProgressMessage = "Exported file " + bankFileName;
+                    raida.OnLogRecieved(pge);
+                    
                 }//end if write was good. 
+
             }
             else if (File.Exists(partialFileName))//If the file is a bank file, export a good bank coin
             {
@@ -629,6 +633,8 @@ namespace CloudCoinCore
                 if (this.fileSystem.writeJpeg(jpgCoin, tag))//If the jpeg writes successfully 
                 {
                     File.Delete(partialFileName);//Delete the files if they have been written to
+                    pge.MajorProgressMessage = "Exported file " + partialFileName;
+                    raida.OnLogRecieved(pge);
                 }//end if write was good. 
             }
             else//Export a fracked coin. 
@@ -637,8 +643,11 @@ namespace CloudCoinCore
                 if (this.fileSystem.writeJpeg(jpgCoin, tag))
                 {
                     File.Delete(frackedFileName);//Delete the files if they have been written to
+                    pge.MajorProgressMessage = "Exported file " + frackedFileName;
+                    raida.OnLogRecieved(pge);
                 }//end if
             }//end else
+
         }//End write one jpeg 
     }// end exporter class
 }//end namespace
