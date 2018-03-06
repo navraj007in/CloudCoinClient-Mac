@@ -131,11 +131,11 @@ namespace CloudCoinClientMAC.CoreClasses
         public override void LoadFileSystem()
         {
             importCoins = LoadFolderCoins(ImportFolder);
-            exportCoins = LoadFolderCoins(ExportFolder);
+            //exportCoins = LoadFolderCoins(ExportFolder);
             bankCoins = LoadFolderCoins(BankFolder);
             lostCoins = LoadFolderCoins(LostFolder);
-            importedCoins = LoadFolderCoins(ImportedFolder);
-            trashCoins = LoadFolderCoins(TrashFolder);
+            //importedCoins = LoadFolderCoins(ImportedFolder);
+            //trashCoins = LoadFolderCoins(TrashFolder);
             suspectCoins = LoadFolderCoins(SuspectFolder);
             detectedCoins = LoadFolderCoins(DetectedFolder);
             frackedCoins = LoadFolderCoins(FrackedFolder);
