@@ -32,11 +32,14 @@ namespace CloudCoinCore
         {
             //RAIDA raida = RAIDA.GetInstance();
             CoinUtils cu = new CoinUtils(cc);
+            ProgressChangedEventArgs pge = new ProgressChangedEventArgs();
 
             /*1. WILL THE BROKEN RAIDA FIX? check to see if it has problems echo, detect, or fix. */
             if (raida.nodes[raida_ID].FailsFix || raida.nodes[raida_ID].FailsEcho || raida.nodes[raida_ID].FailsEcho)
             {
                 Console.Out.WriteLine("RAIDA Fails Echo or Fix. Try again when RAIDA online.");
+                pge.MajorProgressMessage = ("RAIDA Fails Echo or Fix. Try again when RAIDA online.");
+                raida.OnLogRecieved(pge);
                 return "RAIDA Fails Echo or Fix. Try again when RAIDA online.";
             }
             else
@@ -66,6 +69,8 @@ namespace CloudCoinCore
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.Out.WriteLine("");
                             Console.Out.WriteLine("RAIDA" + raida_ID + " unfracked successfully.");
+                            pge.MajorProgressMessage = "RAIDA" + raida_ID + " unfracked successfully.";
+                            raida.OnLogRecieved(pge);
                             //CoreLogger.Log("RAIDA" + raida_ID + " unfracked successfully.");
                             Console.Out.WriteLine("");
                             Console.ForegroundColor = ConsoleColor.White;
@@ -77,6 +82,8 @@ namespace CloudCoinCore
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.Out.WriteLine("");
                             Console.Out.WriteLine("RAIDA failed to accept tickets on corner " + corner);
+                            pge.MajorProgressMessage = "RAIDA failed to accept tickets on corner " + corner;
+                            raida.OnLogRecieved(pge);
                             //CoreLogger.Log("RAIDA failed to accept tickets on corner " + corner);
                             Console.Out.WriteLine("");
                             Console.ForegroundColor = ConsoleColor.White;
@@ -88,6 +95,8 @@ namespace CloudCoinCore
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Out.WriteLine("");
                         Console.Out.WriteLine("Trusted servers failed to provide tickets for corner " + corner);
+                        pge.MajorProgressMessage = "Trusted servers failed to provide tickets for corner " + corner;
+                        raida.OnLogRecieved(pge);
                         //CoreLogger.Log("Trusted servers failed to provide tickets for corner " + corner);
                         Console.Out.WriteLine("");
                         Console.ForegroundColor = ConsoleColor.White;
@@ -99,6 +108,9 @@ namespace CloudCoinCore
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Out.WriteLine("");
                 Console.Out.WriteLine("One or more of the trusted triad will not echo and detect.So not trying.");
+                pge.MajorProgressMessage = "One or more of the trusted triad will not echo and detect.So not trying.";
+                raida.OnLogRecieved(pge);
+
                 //CoreLogger.Log("One or more of the trusted triad will not echo and detect.So not trying.");
                 Console.Out.WriteLine("");
                 Console.ForegroundColor = ConsoleColor.White;
