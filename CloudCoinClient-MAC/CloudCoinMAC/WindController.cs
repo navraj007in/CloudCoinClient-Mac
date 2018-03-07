@@ -24,7 +24,7 @@ namespace CloudCoinMAC
             this.Window.MinSize = size;
             //this.Window.TitlebarAppearsTransparent = true;
             //this.Window.MovableByWindowBackground = true;
-
+            this.Window.BackgroundColor = NSColor.FromRgb(45, 146, 255);
            // this.Window.BackgroundColor = NSColor.FromRgb(78, 47, 161);
         }
 	}

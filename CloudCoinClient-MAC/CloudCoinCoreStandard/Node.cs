@@ -26,6 +26,7 @@ namespace CloudCoinCore
 
         public int NodeNumber;
         public int EchoTime = 0;
+        public int MultiDetectTime = 0;
         public String fullUrl;
         public int readTimeout;
         public NodeStatus RAIDANodeStatus = NodeStatus.NotReady;
@@ -62,6 +63,7 @@ namespace CloudCoinCore
             Response echoResponse = new Response();
             echoResponse.fullRequest = this.fullUrl + "echo?b=t";
             DateTime before = DateTime.Now;
+            FailsEcho = true;
             //RAIDA_Status.failsEcho[raidaID] = true;
             try
             {
@@ -72,6 +74,7 @@ namespace CloudCoinCore
                     echoResponse.success = true;
                     echoResponse.outcome = "ready";
                     this.RAIDANodeStatus = NodeStatus.Ready;
+                    FailsEcho = false;
                     //RAIDA_Status.failsEcho[raidaID] = false;
                 }
                 else
@@ -79,6 +82,7 @@ namespace CloudCoinCore
                     this.RAIDANodeStatus = NodeStatus.NotReady;
                     echoResponse.success = false;
                     echoResponse.outcome = "error";
+                    FailsEcho = true;
                     //RAIDA_Status.failsEcho[raidaID] = true;
                 }
             }
@@ -87,6 +91,7 @@ namespace CloudCoinCore
                 echoResponse.outcome = "error";
                 echoResponse.success = false;
                 this.RAIDANodeStatus = NodeStatus.NotReady;
+                FailsEcho = true;
                 //RAIDA_Status.failsEcho[raidaID] = true;
                 if (ex.InnerException != null)
                     echoResponse.fullResponse = ex.InnerException.Message;
@@ -94,6 +99,7 @@ namespace CloudCoinCore
             }
             DateTime after = DateTime.Now; TimeSpan ts = after.Subtract(before);
             echoResponse.milliseconds = Convert.ToInt32(ts.Milliseconds);
+            EchoTime = Convert.ToInt32(ts.Milliseconds);
             //Debug.WriteLine("Echo Complete-Node No.-" + NodeNumber + ".Status-" + RAIDANodeStatus);
             return echoResponse;
         }//end detect
@@ -117,12 +123,15 @@ namespace CloudCoinCore
                 {
                     detectResponse.outcome = "pass";
                     detectResponse.success = true;
+                    FailsDetect = false;
                 }
                 else if (detectResponse.fullResponse.Contains("fail") && detectResponse.fullResponse.Length < 200)//less than 200 incase their is a fail message inside errored page
                 {
                     detectResponse.outcome = "fail";
                     detectResponse.success = false;
                     RAIDANodeStatus = NodeStatus.Ready;
+                    FailsDetect = true;
+
                     //RAIDA_Status.failsDetect[RAIDANumber] = true;
                 }
                 else
@@ -130,6 +139,7 @@ namespace CloudCoinCore
                     detectResponse.outcome = "error";
                     detectResponse.success = false;
                     RAIDANodeStatus = NodeStatus.NotReady;
+                    FailsDetect = true;
                     //RAIDA_Status.failsDetect[RAIDANumber] = true;
                 }
 
@@ -177,6 +187,7 @@ namespace CloudCoinCore
                     detectResponse.outcome = "fail";
                     detectResponse.success = false;
                     RAIDANodeStatus = NodeStatus.Ready;
+                    FailsDetect = true;
                     //RAIDA_Status.failsDetect[RAIDANumber] = true;
                 }
                 else
@@ -184,6 +195,7 @@ namespace CloudCoinCore
                     detectResponse.outcome = "error";
                     detectResponse.success = false;
                     RAIDANodeStatus = NodeStatus.NotReady;
+                    FailsDetect = true;
                     //RAIDA_Status.failsDetect[RAIDANumber] = true;
                 }
 
@@ -316,6 +328,7 @@ namespace CloudCoinCore
                     response[i].fullResponse = ex.Message;
                     response[i].success = false;
                     response[i].milliseconds = Convert.ToInt32(ts.Milliseconds);
+                    FailsDetect = true;
                     //RAIDA_Status.failsDetect[RAIDANumber] = true;
                 }//end for every CloudCoin note
                 multiResponse.responses = response;
@@ -393,7 +406,7 @@ namespace CloudCoinCore
              //Break the respons into sub responses. 
              //RAIDA_Status.multiDetectTime[NodeNumber] = Convert.ToInt32(ts.Milliseconds);
             multiResponse.responses = response;
-
+            MultiDetectTime = Convert.ToInt32(ts.Milliseconds);
             return multiResponse;
         }//End multi detect
 
@@ -477,6 +490,7 @@ namespace CloudCoinCore
                                 response[i].fullResponse = json.StatusCode.ToString();
                                 response[i].success = false;
                                 response[i].milliseconds = Convert.ToInt32(ts.Milliseconds);
+                                FailsDetect = true;
                                 //RAIDA_Status.failsDetect[RAIDANumber] = true;
                             }//end for every CloudCoin note
                             multiResponse.responses = response;
@@ -498,6 +512,7 @@ namespace CloudCoinCore
                         response[i].fullResponse = ex.Message;
                         response[i].success = false;
                         response[i].milliseconds = Convert.ToInt32(ts.Milliseconds);
+                        FailsDetect = true;
                         //RAIDA_Status.failsDetect[RAIDANumber] = true;
                     }//end for every CloudCoin note
                     multiResponse.responses = response;
@@ -515,6 +530,7 @@ namespace CloudCoinCore
                         response[i].fullResponse = ex.Message;
                         response[i].success = false;
                         response[i].milliseconds = Convert.ToInt32(ts.Milliseconds);
+                        FailsDetect = true;
                         //RAIDA_Status.failsDetect[RAIDANumber] = true;
                     }//end for every CloudCoin note
                     multiResponse.responses = response;
@@ -590,7 +606,7 @@ namespace CloudCoinCore
 
                 }//End Else not a dud
                  //Break the respons into sub responses. 
-                 //RAIDA_Status.multiDetectTime[NodeNumber] = Convert.ToInt32(ts.Milliseconds);
+                MultiDetectTime = Convert.ToInt32(ts.Milliseconds);
                 multiResponse.responses = response;
                 return multiResponse;
 

@@ -132,6 +132,7 @@ namespace CloudCoinCore
             }//no coins to unfrack
 
 
+
             for (int i = 0; i < frackedFileNames.Length; i++)
             {
                 if (!continueExecution){
@@ -140,7 +141,7 @@ namespace CloudCoinCore
                 }
                 Console.WriteLine("Unfracking coin " + (i + 1) + " of " + frackedFileNames.Length);
                 //ProgressChangedEventArgs pge = new ProgressChangedEventArgs();
-                pge.MajorProgressMessage = "UnFracking coin " + (i + 1) + " of " + frackedFileNames.Length;
+                pge.MajorProgressMessage = "Unfracking coin " + (i + 1) + " of " + frackedFileNames.Length;
                 raida.OnLogRecieved(pge);
                 //CoreLogger.Log("UnFracking coin " + (i + 1) + " of " + frackedFileNames.Length);
                 try
@@ -219,8 +220,13 @@ namespace CloudCoinCore
             results[2] = this.totalValueToFractured; // System.out.println("Fracked and Moved to Fracked: "+ totalValueToFractured);
             IsFixing = false;
             continueExecution = true;
-            pge.MajorProgressMessage = "Coins Fixing completed";
+            pge.MajorProgressMessage = "Finished Frack Fixing.";
             raida.OnLogRecieved(pge);
+
+            pge.MajorProgressMessage = "Fixed " + totalValueToBank + " CloudCoins and moved them into Bank Folder";
+            if(totalValueToBank>0)
+                raida.OnLogRecieved(pge);
+
             return results;
         }// end fix all
 

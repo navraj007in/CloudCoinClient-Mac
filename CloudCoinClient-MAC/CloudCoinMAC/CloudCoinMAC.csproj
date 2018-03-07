@@ -95,6 +95,8 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\icon1024.png" />
     <ImageAsset Include="Assets.xcassets\Image.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Image.imageset\cloudcoin.png" />
+    <ImageAsset Include="Assets.xcassets\Image-1.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Image-1.imageset\C_Users_sean_AppData_Local_Packages_Microsoft.SkypeApp_kzf8qxf38zg5c_LocalState_d333e936-6fd7-49c4-b7e8-67deb675fdcd.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
