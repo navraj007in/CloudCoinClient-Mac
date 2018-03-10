@@ -128,6 +128,8 @@ namespace CloudCoinCore
             continueExecution = true;
             int[] results = new int[3];
             String[] frackedFileNames = new DirectoryInfo(this.fileUtils.FrackedFolder).GetFiles().Select(o => o.Name).ToArray();
+
+
             CloudCoin frackedCC;
 
             ProgressChangedEventArgs pge = new ProgressChangedEventArgs();
@@ -159,6 +161,8 @@ namespace CloudCoinCore
                 try
                 {
                     frackedCC = fileUtils.LoadCoin(this.fileUtils.FrackedFolder + frackedFileNames[i]);
+                    if (frackedCC == null)
+                        throw new IOException();
                     CoinUtils cu = new CoinUtils(frackedCC);
                     String value = frackedCC.pown;
                     //  Console.WriteLine("Fracked Coin: ");
