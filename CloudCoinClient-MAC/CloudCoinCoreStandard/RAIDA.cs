@@ -73,7 +73,7 @@ namespace CloudCoinCore
 
 
 
-        public List<Func<Task>> GetMultiDetectTasks(CloudCoin[] coins, int milliSecondsToTimeOut)
+        public List<Func<Task>> GetMultiDetectTasks(CloudCoin[] coins, int milliSecondsToTimeOut,bool changeANs=true)
         {
             this.coins = coins;
 
@@ -98,8 +98,10 @@ namespace CloudCoinCore
             //List<Task<Response[]>> multiTaskList = new List<Task<Response[]>>();
             for (int i = 0; i < coins.Length; i++)//For every coin
             {
-                
-                coins[i].GeneratePAN();
+                if (changeANs)
+                    coins[i].GeneratePAN();
+                else
+                    coins[i].setAnsToPans();
                 //coins[i].setAnsToPans();
                 nns[i] = coins[i].nn;
                 sns[i] = coins[i].sn;
