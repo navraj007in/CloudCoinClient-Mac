@@ -1,9 +1,6 @@
 ﻿using AppKit;
 using Foundation;
-using AppKit;
-using Foundation;
 using CloudCoinCore;
-using CloudCoinMAC;
 using System;
 using System.IO;
 using CloudCoinClientMAC.CoreClasses;
@@ -41,7 +38,7 @@ namespace CloudCoinMAC
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e.Message);
             }
             RootPath = ws;
             Setup();

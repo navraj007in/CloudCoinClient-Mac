@@ -41,10 +41,15 @@ namespace CloudCoinMAC
                 view.Bordered = false;
                 view.Selectable = false;
                 view.Alignment = NSTextAlignment.Center;
-                if(tableColumn.Title == "Export")
-                    view.Editable = true;
+                if(tableColumn.Title == "Total")
+                    view.Alignment= NSTextAlignment.Right;
                 view.Tag = row;
-
+                if(row == 5)
+                {
+                    NSFont font = NSFont.BoldSystemFontOfSize(12);
+                    //NSFont.ofsi
+                    view.Font = font;
+                }
                 view.EditingEnded += (sender, e) => {
 
                     // Take action based on type
@@ -56,7 +61,8 @@ namespace CloudCoinMAC
                                 Convert.ToString(view.IntValue * multiplier[row]);
                             //DataSource.Products[(int)view.Tag].Title = view.StringValue;
                             break;
-                        case "Details":
+                        case "Total":
+                            view.Alignment = NSTextAlignment.Right;
                             //DataSource.Products[(int)view.Tag].Description = view.StringValue;
                             break;
                     }

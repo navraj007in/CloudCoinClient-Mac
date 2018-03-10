@@ -101,7 +101,8 @@ namespace CloudCoinMAC
         {
             ProgressChangedEventArgs pge = (ProgressChangedEventArgs)e;
             //DetectEventArgs eargs = e;
-            updateLog(pge.MajorProgressMessage);
+            //updateLog(pge.MajorProgressMessage);
+            logger.Info(pge.MajorProgressMessage);
             //Debug.WriteLine("Coin Detection Event Recieved - " + eargs.DetectedCoin.sn);
         }
         partial void EchoClick(NSObject sender)
@@ -111,18 +112,20 @@ namespace CloudCoinMAC
 
         }
         
-        public void updateLog(string logLine)
+        public void updateLog(string logLine,bool writeUI = true)
         {
             BeginInvokeOnMainThread(() =>
             {
                 NSString str = new NSString(logLine + System.Environment.NewLine);
                 //txtProgress.StringValue += logLine + System.Environment.NewLine;
                 //txtProgress.InsertText(str);
-                
-                NSRange rang = new NSRange(txtLogs.Value.Length,0);
+                if(writeUI){
+                    NSRange rang = new NSRange(txtLogs.Value.Length, 0);
 
-                txtLogs.SetSelectedRange(rang);
-                txtLogs.InsertText(str);
+                    txtLogs.SetSelectedRange(rang);
+                    txtLogs.InsertText(str);
+                }
+
 
                 logger.Info(logLine);
             });
@@ -324,7 +327,7 @@ namespace CloudCoinMAC
             EnableUI();
             if (resumeFix)
                 Task.Run(() => {
-                    fix();
+                    Fix();
                 });
             //txtProgress.AppendText("----------------------------------\n");
         }
@@ -381,7 +384,13 @@ namespace CloudCoinMAC
                 var coins = predetectCoins.Skip(i * CloudCoinCore.Config.MultiDetectLoad).Take(200);
                 coins.ToList().ForEach(x=>x.pown="");
                 raida.coins = coins;
-
+                if(i == LotCount-1) {
+                    updateLog("Detecting Coins " + (i * CloudCoinCore.Config.MultiDetectLoad + 1) +
+                              " to " + totalCoinCount);
+                }
+                else
+                    updateLog("Detecting Coins " + (i * CloudCoinCore.Config.MultiDetectLoad + 1) + 
+                          " to " + (i + 1) * CloudCoinCore.Config.MultiDetectLoad);
                 var tasks = raida.GetMultiDetectTasks(coins.ToArray(), CloudCoinCore.Config.milliSecondsToTimeOut);
                 try
                 {
@@ -396,7 +405,7 @@ namespace CloudCoinMAC
                         coin.pown = "";
                         for (int k = 0; k < CloudCoinCore.Config.NodeCount; k++)
                         {
-                            coin.response[k] = raida.nodes[k].multiResponse.responses[j];
+                            coin.response[k] = raida.nodes[k].MultiResponse.responses[j];
                             coin.pown += coin.response[k].outcome.Substring(0, 1);
                         }
                         int countp = coin.response.Where(x => x.outcome == "pass").Count();
@@ -406,7 +415,7 @@ namespace CloudCoinMAC
                         CoinCount++;
                         updateLog("No. " + CoinCount + ". Coin Detected. S. No. : " + coin.sn + ". Pass Count : " + 
                                   coin.PassCount + ". Fail Count  : " + coin.FailCount + ". Result : " + 
-                                  coin.DetectionResult + "." + coin.pown + ".");
+                                  coin.DetectionResult + "." + coin.pown + ".",false);
 
 
                         Debug.WriteLine("Coin Detected. S. No. - " + coin.sn + ". Pass Count : " + coin.PassCount + ". Fail Count  : " + coin.FailCount + ". Result - " + coin.DetectionResult);
@@ -445,6 +454,8 @@ namespace CloudCoinMAC
             pge.MinorProgress = 100;
             Debug.WriteLine("Minor Progress- " + pge.MinorProgress);
             raida.OnProgressChanged(pge);
+            updateLog("Detection finished.");
+            updateLog("Starting Grading Coins..");
             var detectedCoins = FS.LoadFolderCoins(FS.DetectedFolder);
             detectedCoins.ForEach(x => x.setAnsToPansIfPassed());
             detectedCoins.ForEach(x => x.calculateHP());
@@ -516,17 +527,17 @@ namespace CloudCoinMAC
             EnableUI();
             ShowCoins();
             Task.Run(() => {
-                fix();
+                Fix();
             });
             FS.LoadFileSystem();
  
         }
 
-        private void fix() {
+        private void Fix() {
             //Frack_Fixer fixer = new Frack_Fixer(FS,CloudCoinCore.Config.milliSecondsToTimeOut);
             fixer.continueExecution = true;
             fixer.IsFixing = true;
-            fixer.fixAll();
+            fixer.FixAll();
             fixer.IsFixing = false;
         }
         private void ShowCoins()
@@ -573,9 +584,11 @@ namespace CloudCoinMAC
             int total = onesCount + fivesCount + qtrCount + hundredsCount + twoFiftiesCount;
             int totalAmount = onesCount + (fivesCount * 5) + (qtrCount * 25) + (hundredsCount * 100) + (twoFiftiesCount * 250);
 
-            DataSource.Products.Add(new Product("Bank Total", total.ToString(), string.Format("{0:n0}", totalAmount)
+            string totalStr = string.Format("{0:n0}", total.ToString());
+            DataSource.Products.Add(new Product("Bank Total", totalStr , string.Format("{0:n0}", totalAmount)
                                                  + " CC"));
-
+            //DataSource.Products.Add(new Product("","Bank Total", string.Format("{0:n0}", totalAmount)
+             //                                    + " CC"));
             // Populate the Product Table
             ProductTable.DataSource = DataSource;
             ProductTable.Delegate = new ProductTableDelegate(DataSource);
@@ -746,8 +759,8 @@ namespace CloudCoinMAC
 
                             string targetPath = panel.Url.Path;
                             File.WriteAllText(targetPath, csv.ToString());
-                            NSWorkspace.SharedWorkspace.SelectFile(backupDir,
-                                                                   backupDir);
+                            NSWorkspace.SharedWorkspace.SelectFile(targetPath,
+                                                                   targetPath);
                         }
                     }
 

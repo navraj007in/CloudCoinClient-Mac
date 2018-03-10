@@ -237,7 +237,7 @@ namespace CloudCoinClientMAC.CoreClasses
                 }
                 catch (Exception e)
                 {
-
+                    Console.WriteLine(e.Message);
                 }
 
 
@@ -274,7 +274,7 @@ namespace CloudCoinClientMAC.CoreClasses
                 }
                 catch (Exception e)
                 {
-
+                    Console.WriteLine(e.Message);
                 }
 
 
@@ -359,7 +359,9 @@ namespace CloudCoinClientMAC.CoreClasses
                     file.Attributes = FileAttributes.Normal;
                     File.Delete(file.FullName);
                 }
-                catch { }
+            catch(Exception e) {
+                Console.WriteLine(e.Message);
+            }
 
         }
         public List<FileInfo> GetFiles(string path, params string[] extensions)
