@@ -19,6 +19,7 @@ using System.DrawingCore;
 using System.DrawingCore.Imaging;
 using System.Collections.Generic;
 using CoreGraphics;
+
 namespace CloudCoinMAC
 {
     public partial class ViewController : NSViewController
