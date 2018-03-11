@@ -586,6 +586,8 @@ namespace CloudCoinMAC
             int totalAmount = onesCount + (fivesCount * 5) + (qtrCount * 25) + (hundredsCount * 100) + (twoFiftiesCount * 250);
 
             string totalStr = string.Format("{0:n0}", total.ToString());
+
+            totalStr = total.ToString("###,###,####");
             DataSource.Products.Add(new Product("Bank Total", totalStr , string.Format("{0:n0}", totalAmount)
                                                  + " CC"));
             //DataSource.Products.Add(new Product("","Bank Total", string.Format("{0:n0}", totalAmount)
@@ -896,6 +898,31 @@ namespace CloudCoinMAC
             //updateLog("  Your Bank Inventory:");
             int grandTotal = (bankTotals[0] + frackedTotals[0] + partialTotals[0]);
             int exportTotal = exp_1 + (exp_5 * 5) + (exp_25 * 25) + (exp_100 * 100) + (exp_250 * 250);
+
+            if(exp_1> onesCount) {
+                updateLog("Not sufficient ones.");
+                return;
+            }
+            if (exp_5 > fivesCount)
+            {
+                updateLog("Not sufficient fives.");
+                return;
+            }
+            if (exp_25 > qtrCount)
+            {
+                updateLog("Not sufficient Quarters.");
+                return;
+            }
+            if (exp_100 > hundredsCount)
+            {
+                updateLog("Not sufficient Hundreds.");
+                return;
+            }
+            if (exp_250 > twoFiftiesCount)
+            {
+                updateLog("Not sufficient Two fifties.");
+                return;
+            }
 
             updateLog("Exporting "+ exportTotal +" CloudCoins from Bank. Do not close CloudCoin CE program until it is finished!");
 
