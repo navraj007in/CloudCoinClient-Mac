@@ -584,9 +584,9 @@ namespace CloudCoinMAC
             int total = onesCount + fivesCount + qtrCount + hundredsCount + twoFiftiesCount;
             int totalAmount = onesCount + (fivesCount * 5) + (qtrCount * 25) + (hundredsCount * 100) + (twoFiftiesCount * 250);
 
-            string totalStr = string.Format("{0:n0}", total.ToString());
-
-            totalStr = total.ToString("###,###,####");
+            string totalStr = string.Format("{0:n0}", total);
+            //totalStr = String.Format("{0:#,###,###.##}", total);
+            //totalStr = total.ToString("###,###,####");
             DataSource.Products.Add(new Product("Bank Total", totalStr , string.Format("{0:n0}", totalAmount)
                                                  + " CC"));
             //DataSource.Products.Add(new Product("","Bank Total", string.Format("{0:n0}", totalAmount)
@@ -904,30 +904,35 @@ namespace CloudCoinMAC
             if(exp_1> onesCount) {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 1.");
+                Fix();
                 return;
             }
             if (exp_5 > fivesCount)
             {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 5.");
+                Fix();
                 return;
             }
             if (exp_25 > qtrCount)
             {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 25.");
+                Fix();
                return;
             }
             if (exp_100 > hundredsCount)
             {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 100.");
+                Fix();
                 return;
             }
             if (exp_250 > twoFiftiesCount)
             {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 250.");
+                Fix();
                 return;
             }
 
@@ -946,6 +951,7 @@ namespace CloudCoinMAC
             {
                 Console.WriteLine("Can not export 0 coins");
                 updateLog("Can not export 0 coins");
+                Fix();
                 return;
             }
 
