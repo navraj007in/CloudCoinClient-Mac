@@ -234,6 +234,9 @@ namespace CloudCoinCore
 
         public bool isFixable()
         {
+            string origPown = pown;
+            pown = pown.Replace('d', 'e').Replace('n', 'e').Replace('u', 'e');
+
             //The coin is considered fixable if it has any of the patersns that would allow the new owner to fix fracked.
             //There are four of these patterns: One for each corner. 
             bool canFix = false;
@@ -287,6 +290,7 @@ namespace CloudCoinCore
                 canFix = false;
                 Console.Out.WriteLine("Not isFixable");
             }
+            pown = origPown;
             return canFix;
         }//end is fixable
 
