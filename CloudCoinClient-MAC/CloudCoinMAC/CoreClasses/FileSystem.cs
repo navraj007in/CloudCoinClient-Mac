@@ -244,7 +244,7 @@ namespace CloudCoinClientMAC.CoreClasses
             }
         }
 
-        public void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder)
+        public void MoveCoins(IEnumerable<CloudCoin> coins, string sourceFolder, string targetFolder, bool replaceCoins = false)
         {
             var folderCoins = LoadFolderCoins(targetFolder);
 
@@ -254,7 +254,7 @@ namespace CloudCoinClientMAC.CoreClasses
                 int coinExists = (from x in folderCoins
                                   where x.sn == coin.sn
                                   select x).Count();
-                if (coinExists > 0)
+                if (coinExists > 0 && !replaceCoins)
                 {
                     string suffix = Utils.RandomString(16);
                     fileName += suffix.ToLower();
