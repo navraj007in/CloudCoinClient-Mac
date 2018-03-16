@@ -272,15 +272,16 @@ namespace CloudCoinMAC
                 return;
             }
             fixer.continueExecution = false;
-            if (fixer.IsFixing){
+
+            printLineDots();
+            updateLog("Starting CloudCoin Import. \n\tPlease do not close the CloudCoin CE program until it is finished." +
+                      "\n\tOtherwise it may result in loss of CloudCoins.");
+            printLineDots();
+            if (fixer.IsFixing)
+            {
                 updateLog("Stopping Fix");
                 Debug.WriteLine("Stopping Fix");
             }
-            printLineDots();
-            updateLog("Starting CloudCoin Import. \n\tPlease do not close the CloudCoin CE program untill it is finished." +
-                      "\n\tOtherwise it may result in loss of CloudCoins.");
-            printLineDots();
-
             System.Threading.SpinWait.SpinUntil(() => !fixer.IsFixing);
             var files = Directory
                .GetFiles(FS.ImportFolder)
@@ -290,8 +291,12 @@ namespace CloudCoinMAC
             int filesCount = Directory.GetFiles(FS.ImportFolder).Length;
             if(files.Count == 0) {
                 bool PickResult = PickFiles();
-                if (!PickResult)
+                if (!PickResult){
+                    Task.Run(() => {
+                        Fix();
+                    });
                     return;
+                }      
             }
             DisableUI();
             Detect();
@@ -324,10 +329,11 @@ namespace CloudCoinMAC
 
             Debug.WriteLine("-----------------------------------\n");
             updateLog("\tReady Nodes : " + Convert.ToString(raida.ReadyCount) + "\n");
-            updateLog("\tNot Ready Nodes : " + Convert.ToString(raida.NotReadyCount) + "\n");
+            updateLog("\tNot Ready Nodes : " + Convert.ToString(raida.NotReadyCount) + "");
 
             Debug.WriteLine("Ready Nodes-" + Convert.ToString(raida.ReadyCount));
             Debug.WriteLine("Not Ready Nodes-" + Convert.ToString(raida.NotReadyCount));
+            updateLog("----------------------------------");
 
             EnableUI();
             if (resumeFix)
@@ -920,35 +926,45 @@ namespace CloudCoinMAC
             if(exp_1> onesCount) {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 1.");
-                Fix();
+                Task.Run(() => {
+                    Fix();
+                });
                 return;
             }
             if (exp_5 > fivesCount)
             {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 5.");
-                Fix();
+                Task.Run(() => {
+                    Fix();
+                });
                 return;
             }
             if (exp_25 > qtrCount)
             {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 25.");
-                Fix();
+                Task.Run(() => {
+                    Fix();
+                });
                return;
             }
             if (exp_100 > hundredsCount)
             {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 100.");
-                Fix();
+                Task.Run(() => {
+                    Fix();
+                });
                 return;
             }
             if (exp_250 > twoFiftiesCount)
             {
                 updateLog("Export of CloudCoins stopped.");
                 updateLog("\tNot sufficient coins in denomination 250.");
-                Fix();
+                Task.Run(() => {
+                    Fix();
+                });
                 return;
             }
 
@@ -968,7 +984,9 @@ namespace CloudCoinMAC
             {
                 Console.WriteLine("Can not export 0 coins");
                 updateLog("Can not export 0 coins");
-                Fix();
+                Task.Run(() => {
+                    Fix();
+                });
                 return;
             }
 
@@ -1021,7 +1039,9 @@ namespace CloudCoinMAC
             {
                 ShowCoins();
             });
-            Fix();
+            Task.Run(() => {
+                Fix();
+            });
            
         }// end export One
         public override NSObject RepresentedObject
