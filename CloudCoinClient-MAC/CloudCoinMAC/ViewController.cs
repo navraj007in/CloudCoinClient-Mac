@@ -354,7 +354,7 @@ namespace CloudCoinMAC
 
             // Prepare Coins for Import
             FS.DetectPreProcessing();
-            FS.MoveCoins(FileSystem.suspectCoins, FS.SuspectFolder, FS.PreDetectFolder);
+            //FS.MoveCoins(FileSystem.suspectCoins, FS.SuspectFolder, FS.PreDetectFolder);
             
             IEnumerable<CloudCoin> predetectCoins = FS.LoadFolderCoins(FS.PreDetectFolder);
             FileSystem.predetectCoins = predetectCoins;
@@ -377,7 +377,8 @@ namespace CloudCoinMAC
             foreach (var coin in existingCoins)
             {
                 updateLog("Found existing coin :" + coin.sn + ". Skipping.");
-                FS.MoveFile(FS.PreDetectFolder + coin.FileName + ".stack", FS.TrashFolder + coin.FileName + ".stack", IFileSystem.FileMoveOptions.Replace);
+                FS.MoveFile(FS.PreDetectFolder + coin.FileName + ".stack", FS.TrashFolder + coin.FileName + ".stack", 
+                            IFileSystem.FileMoveOptions.Replace);
             }
 
             predetectCoins = newCoins;
@@ -468,7 +469,9 @@ namespace CloudCoinMAC
             updateLog("\tDetection finished.");
             printLineDots();
             updateLog("Starting Grading Coins..");
+            
             var detectedCoins = FS.LoadFolderCoins(FS.DetectedFolder);
+            //detectedCoins.ForEach(x => x.pown = "ppppppppppppnpppppppppppn");
             detectedCoins.ForEach(x => x.setAnsToPansIfPassed());
             detectedCoins.ForEach(x => x.calculateHP());
             detectedCoins.ForEach(x => x.calcExpirationDate());

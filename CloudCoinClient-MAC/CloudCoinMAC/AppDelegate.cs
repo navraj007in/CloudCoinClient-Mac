@@ -60,8 +60,8 @@ namespace CloudCoinMAC
             raida.FS = FS;
             //CoinDetected += Raida_CoinDetected;
             //raida.Echo();
-            FS.ClearCoins(FS.PreDetectFolder);
-            FS.ClearCoins(FS.DetectedFolder);
+            //FS.ClearCoins(FS.PreDetectFolder);
+            //FS.ClearCoins(FS.DetectedFolder);
 
             FS.LoadFileSystem();
             

@@ -579,6 +579,9 @@
                                                 </items>
                                             </menu>
                                         </menuItem>
+                                        <menuItem title="View Collectible" id="dEn-4N-K62">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -596,6 +599,12 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="pQI-g3-MTW"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="View Collectible" state="on" id="7rV-EP-hqS" userLabel="View Collectible">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="moA-zj-7eY"/>
                                             </connections>
                                         </menuItem>
                                     </items>
